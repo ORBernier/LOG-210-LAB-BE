@@ -1,8 +1,8 @@
-import {LabelsRepository} from "../Services/LabelsRepository";
+import {RQRSDARepository} from "../Services/RQRSDARepository";
 
 export class DependencyInstaller {
 
     public static Installers: Array<object> = [
-        LabelsRepository
+        RQRSDARepository
     ];
 };

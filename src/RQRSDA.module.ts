@@ -1,14 +1,13 @@
 import {Module} from '@nestjs/common';
-import {AppController} from './app.controller';
-import {LabelsController} from './Controllers/LabelsController';
+import {EmployesController} from './Controllers/EmployesController';
 import {TypeOrmModule} from '@nestjs/typeorm';
 import {DependencyInstaller} from './Infrastructure/DependencyInstaller';
-import {Label} from "./Models/Label";
+import {Employe} from "./Models/Employe";
 
 @Module({
     imports: [TypeOrmModule.forRoot(),
-              TypeOrmModule.forFeature([Label])],
-    controllers: [AppController, LabelsController],
+              TypeOrmModule.forFeature([Employe])],
+    controllers: [EmployesController],
     components: DependencyInstaller.Installers,
 
 })
