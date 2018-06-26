@@ -1,9 +1,8 @@
 import { NestFactory } from '@nestjs/core';
-import "reflect-metadata";
-import { ApplicationModule } from './RQRSDA.module';
+import { AppModule } from './app.module';
 
 async function bootstrap() {
-	const app = await NestFactory.create(ApplicationModule);
-	await app.listen(3000);
+  const app = await NestFactory.create(AppModule);
+  await app.listen(3000);
 }
 bootstrap();
