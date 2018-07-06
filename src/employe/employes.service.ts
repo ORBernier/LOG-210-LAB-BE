@@ -10,7 +10,7 @@ export class EmployesService {
     
     constructor(
         @InjectRepository(Employe)
-        private readonly employes: Repository<Employe>,
+        private readonly employes: Repository<Employe>
       ) {}
     
 
@@ -23,7 +23,7 @@ export class EmployesService {
         employe.Email = dto.FirstName + dto.LastName + "@RQRSDA.qc.ca";
         employe.Role = dto.Role;
 
-        this.employes.save(employe);
+        await this.employes.save(employe);
     }
 
     async findAll(): Promise<Employe[]> {
@@ -35,11 +35,18 @@ export class EmployesService {
 
     }
 
-    async update(updateEmployeDto: UpdateEmployeDto) {
+    async update(dto: UpdateEmployeDto) {
 
         try {
 
-            await this.employes.update(updateEmployeDto.Id, updateEmployeDto.toEmploye());
+            const employe = new Employe();
+
+            employe.FirstName = dto.FirstName;
+            employe.LastName = dto.LastName;
+            employe.Email = dto.FirstName + dto.LastName + "@RQRSDA.qc.ca";
+            employe.Role = dto.Role;
+
+            await this.employes.update(dto.Id, employe);
 
         } catch (e) {
 

@@ -1,5 +1,3 @@
-import { Employe } from "../employe.entity";
-
 export class CreateEmployeDto {
     
     readonly FirstName: string;

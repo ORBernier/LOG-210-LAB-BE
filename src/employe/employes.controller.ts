@@ -8,29 +8,29 @@ import { DeleteEmployeDto } from './employeDto/delete-employe.dto';
 @Controller('employes')
 export class EmployesController {
 
-    constructor(private readonly employesService: EmployesService) {}
+    constructor(private readonly service: EmployesService) {}
 
     @Get()
      async findAll():  Promise<Employe[]> {
 
-        return await this.employesService.findAll();
+        return await this.service.findAll();
     }
 
     @Post()
-    async create(@Body() createEmployeDto: CreateEmployeDto) {
+    async create(@Body() dto: CreateEmployeDto) {
 
-        return await this.employesService.create(createEmployeDto);
+        return await this.service.create(dto);
     }
 
     @Put()
-    async update(@Body() updateEmployeDto: UpdateEmployeDto) {
+    async update(@Body() dto: UpdateEmployeDto) {
 
-        return await this.employesService.update(updateEmployeDto);
+        return await this.service.update(dto);
     }
 
     @Delete()
-    async delete(@Body() deleteEmployeDto: DeleteEmployeDto) {
+    async delete(@Body() dto: DeleteEmployeDto) {
         
-        return await this.employesService.Delete(deleteEmployeDto.Id);
+        return await this.service.Delete(dto.Id);
     }
 }
