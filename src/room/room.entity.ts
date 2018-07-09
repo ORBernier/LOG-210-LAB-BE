@@ -1,4 +1,5 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, ManyToMany } from 'typeorm';
+import { Service } from 'service/service.entity';
 
 @Entity()
 export class Room {
@@ -6,9 +7,12 @@ export class Room {
     @PrimaryGeneratedColumn()
     Id: number;
 
-    @Column()
+    @Column({length: 50})
     Name: string;
 
     @Column()
     NbPlaces: number;
+
+    @ManyToMany(type => Service, service => service.Rooms)
+    Services: Service[];
 }

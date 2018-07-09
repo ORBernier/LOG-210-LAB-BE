@@ -1,5 +1,7 @@
 export class CreatePricingDto {
 
-    readonly Name: string;
-    readonly IsActive: boolean;
+    readonly ParentsPrincing: number;
+    readonly IsSubventioned: boolean;
+    readonly CISSSPricing: number;
+    readonly StartDate: Date;
 }

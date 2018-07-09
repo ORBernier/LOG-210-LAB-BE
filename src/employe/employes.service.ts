@@ -31,8 +31,9 @@ export class EmployesService {
         return await this.employes.find();
     }
 
-    async findOneByEmail(token: string) {
+    async findOneById(Id: number): Promise<Employe> {
 
+        return await this.employes.findOne(Id);
     }
 
     async update(dto: UpdateEmployeDto) {

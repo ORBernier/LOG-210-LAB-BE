@@ -18,8 +18,10 @@ export class PricingsService {
 
         const pricing = new Pricing();
 
-        pricing.Name = dto.Name;
-        pricing.IsActive = dto.IsActive;
+        pricing.ParentsPrincing = dto.ParentsPrincing;
+        pricing.IsSubventioned = dto.IsSubventioned;
+        pricing.CISSSPricing = dto.CISSSPricing;
+        pricing.StartDate = dto.StartDate;
 
         await this.pricings.save(pricing);
     }
@@ -35,8 +37,10 @@ export class PricingsService {
 
             const pricing = new Pricing();
 
-            pricing.Name = dto.Name;
-            pricing.IsActive = dto.IsActive;
+            pricing.ParentsPrincing = dto.ParentsPrincing;
+            pricing.IsSubventioned = dto.IsSubventioned;
+            pricing.CISSSPricing = dto.CISSSPricing;
+            pricing.StartDate = dto.StartDate;
             
             await this.pricings.update(dto.Id, pricing);
 

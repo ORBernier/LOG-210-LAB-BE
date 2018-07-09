@@ -1,4 +1,5 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
+import { Organization } from 'organization/organization.entity';
 
 @Entity()
 export class ServicePoint {
@@ -20,4 +21,7 @@ export class ServicePoint {
 
     @Column({length: 25})
     Fax: string;
+
+    @ManyToOne(type => Organization)
+    Organization: Organization;
 }

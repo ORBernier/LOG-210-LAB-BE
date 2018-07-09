@@ -4,6 +4,7 @@ import { OrganizationsService } from './organizations.service';
 import { CreateOrganizationDto } from './organizationDto/create-organization.dto';
 import { UpdateOrganizationDto } from './organizationDto/update-organization.dto';
 import { DeleteOrganizationDto } from './organizationDto/delete-organization.dto';
+import { EmployesController } from 'employe/employes.controller';
 
 @Controller('organizations')
 export class OrganizationsController {

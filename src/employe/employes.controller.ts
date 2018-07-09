@@ -16,6 +16,11 @@ export class EmployesController {
         return await this.service.findAll();
     }
 
+    async findOneById(Id: number): Promise<Employe> {
+
+        return await this.service.findOneById(Id);
+    }
+
     @Post()
     async create(@Body() dto: CreateEmployeDto) {
 

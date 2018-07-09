@@ -1,4 +1,5 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
+import { Service } from 'service/service.entity';
 
 @Entity()
 export class Pricing {
@@ -7,8 +8,17 @@ export class Pricing {
     Id: number;
 
     @Column()
-    Name: string;
+    ParentsPrincing: number;
 
     @Column()
-    IsActive: boolean;
+    IsSubventioned: boolean;
+
+    @Column()
+    CISSSPricing: number;
+
+    @Column()
+    StartDate: Date;
+
+    @ManyToOne(type => Service)
+    Service: Service;
 }

@@ -4,6 +4,8 @@ import { CreateOrganizationDto } from './organizationDto/create-organization.dto
 import { UpdateOrganizationDto } from './organizationDto/update-organization.dto';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
+import { Employe } from 'employe/employe.entity';
+import { EmployesController } from 'employe/employes.controller';
 
 @Injectable()
 export class OrganizationsService {
@@ -14,7 +16,7 @@ export class OrganizationsService {
       ) {}
     
 
-    async create(dto: CreateOrganizationDto) {
+    async create(dto: CreateOrganizationDto, Manager: Employe) {
 
         const organization = new Organization();
 
@@ -23,6 +25,7 @@ export class OrganizationsService {
         organization.Phone = dto.Phone;
         organization.Email = dto.Email;
         organization.Fax = dto.Fax;
+        organization.Manager = Manager;
 
         await this.organizations.save(organization);
     }
