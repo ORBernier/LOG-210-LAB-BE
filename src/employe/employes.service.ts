@@ -3,15 +3,27 @@ import { Employe } from './employe.entity';
 import { CreateEmployeDto } from './employeDto/create-employe.dto';
 import { UpdateEmployeDto } from './employeDto/update-employe.dto';
 import { Repository } from 'typeorm';
+import { InjectRepository } from '@nestjs/typeorm';
 
 @Injectable()
 export class EmployesService {
     
-    private readonly employes: Repository<Employe>;
+    constructor(
+        @InjectRepository(Employe)
+        private readonly employes: Repository<Employe>
+      ) {}
+    
 
-    async create(createEmployeDto: CreateEmployeDto) {
+    async create(dto: CreateEmployeDto) {
 
-        this.employes.save(createEmployeDto.toEmploye());
+        const employe = new Employe();
+
+        employe.FirstName = dto.FirstName;
+        employe.LastName = dto.LastName;
+        employe.Email = dto.FirstName + dto.LastName + "@RQRSDA.qc.ca";
+        employe.Role = dto.Role;
+
+        await this.employes.save(employe);
     }
 
     async findAll(): Promise<Employe[]> {
@@ -19,15 +31,23 @@ export class EmployesService {
         return await this.employes.find();
     }
 
-    async findOneByEmail(token: string) {
+    async findOneById(Id: number): Promise<Employe> {
 
+        return await this.employes.findOne(Id);
     }
 
-    async update(updateEmployeDto: UpdateEmployeDto) {
+    async update(dto: UpdateEmployeDto) {
 
         try {
 
-            await this.employes.update(updateEmployeDto.Id, updateEmployeDto.toEmploye());
+            const employe = new Employe();
+
+            employe.FirstName = dto.FirstName;
+            employe.LastName = dto.LastName;
+            employe.Email = dto.FirstName + dto.LastName + "@RQRSDA.qc.ca";
+            employe.Role = dto.Role;
+
+            await this.employes.update(dto.Id, employe);
 
         } catch (e) {
 
