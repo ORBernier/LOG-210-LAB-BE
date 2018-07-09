@@ -1,15 +1,21 @@
-import { Get, Post, Delete, Put, Controller, Body } from '@nestjs/common';
+import { Get, Post, Delete, Put, Controller, Body, Inject } from '@nestjs/common';
 import { Organization } from './organization.entity';
 import { OrganizationsService } from './organizations.service';
 import { CreateOrganizationDto } from './organizationDto/create-organization.dto';
 import { UpdateOrganizationDto } from './organizationDto/update-organization.dto';
 import { DeleteOrganizationDto } from './organizationDto/delete-organization.dto';
-import { EmployesController } from 'employe/employes.controller';
+import { Employe } from 'employe/employe.entity';
+import { EmployesService } from 'employe/employes.service';
+
 
 @Controller('organizations')
 export class OrganizationsController {
 
-    constructor(private readonly service: OrganizationsService) {}
+    constructor(
+        private readonly employeServerice: EmployesService,
+        private readonly service: OrganizationsService) {
+
+    }
 
     @Get()
      async findAll():  Promise<Organization[]> {
@@ -20,7 +26,11 @@ export class OrganizationsController {
     @Post()
     async create(@Body() dto: CreateOrganizationDto) {
 
-        return await this.service.create(dto);
+        //const coord = await this.empService.findOneById(dto.ManagerId);
+
+        let emp = await this.employeServerice.findOneById(dto.ManagerId);
+
+        return await this.service.create(dto, emp);      
     }
 
     @Put()

@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Inject } from '@nestjs/common';
 import { Organization } from './organization.entity';
 import { CreateOrganizationDto } from './organizationDto/create-organization.dto';
 import { UpdateOrganizationDto } from './organizationDto/update-organization.dto';
@@ -6,6 +6,7 @@ import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Employe } from 'employe/employe.entity';
 import { EmployesController } from 'employe/employes.controller';
+import { EmployesService } from 'employe/employes.service';
 
 @Injectable()
 export class OrganizationsService {

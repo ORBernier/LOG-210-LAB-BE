@@ -8,6 +8,7 @@
 
 # misc
 npm-debug.log
+ormconfig.json
 
 # example
 /quick-start
