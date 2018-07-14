@@ -5,4 +5,5 @@ export class CreateServicePointDto {
     readonly Phone: string;
     readonly Email: string;
     readonly Fax: string;
+    readonly OrganizationId: number;
 }

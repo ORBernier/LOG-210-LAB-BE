@@ -8,7 +8,7 @@ export class Service {
     @PrimaryGeneratedColumn()
     Id: number;
 
-    @Column()
+    @Column({length: 100})
     Name: string;
 
     @Column({length: 500})

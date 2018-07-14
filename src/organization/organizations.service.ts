@@ -4,9 +4,7 @@ import { CreateOrganizationDto } from './organizationDto/create-organization.dto
 import { UpdateOrganizationDto } from './organizationDto/update-organization.dto';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Employe } from 'employe/employe.entity';
-import { EmployesController } from 'employe/employes.controller';
-import { EmployesService } from 'employe/employes.service';
+import { User } from 'user/user.entity';
 
 @Injectable()
 export class OrganizationsService {
@@ -17,7 +15,7 @@ export class OrganizationsService {
       ) {}
     
 
-    async create(dto: CreateOrganizationDto, Manager: Employe) {
+    async create(dto: CreateOrganizationDto, Manager: User) {
 
         const organization = new Organization();
 
@@ -36,32 +34,27 @@ export class OrganizationsService {
         return await this.organizations.find();
     }
 
-    async update(dto: UpdateOrganizationDto) {
+    async findOneById(Id: number): Promise<Organization> {
 
-        try {
-
-            const organization = new Organization();
-
-            organization.Name = dto.Name;
-            organization.Adress = dto.Adress;
-            organization.Phone = dto.Phone;
-            organization.Email = dto.Email;
-            organization.Fax = dto.Fax;
-
-            await this.organizations.update(dto.Id, organization);
-
-        } catch (e) {
-
-        }
+        return await this.organizations.findOne(Id);
     }
 
-    async Delete(id: number) {
-        try {
+    async update(dto: UpdateOrganizationDto) {
+
+
+        const organization = new Organization();
+
+        organization.Name = dto.Name;
+        organization.Adress = dto.Adress;
+        organization.Phone = dto.Phone;
+        organization.Email = dto.Email;
+        organization.Fax = dto.Fax;
+
+        await this.organizations.update(dto.Id, organization);
+    }
+
+    async delete(id: number) {
         
-            await this.organizations.delete(id);
-
-        } catch (e) {
-
-        }
+        await this.organizations.delete(id);
     }
 }

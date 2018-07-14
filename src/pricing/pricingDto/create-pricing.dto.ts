@@ -4,4 +4,5 @@ export class CreatePricingDto {
     readonly IsSubventioned: boolean;
     readonly CISSSPricing: number;
     readonly StartDate: Date;
+    readonly ServiceId: number;
 }

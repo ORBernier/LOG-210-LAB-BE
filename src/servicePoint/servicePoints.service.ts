@@ -4,6 +4,7 @@ import { CreateServicePointDto } from './servicePointDto/create-servicePoint.dto
 import { UpdateServicePointDto } from './servicePointDto/update-servicePoint.dto';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
+import { Organization } from 'organization/organization.entity';
 
 @Injectable()
 export class ServicePointsService {
@@ -14,7 +15,7 @@ export class ServicePointsService {
       ) {}
     
 
-    async create(dto: CreateServicePointDto) {
+    async create(dto: CreateServicePointDto, organization: Organization) {
 
         const servicePoint = new ServicePoint();
 
@@ -23,6 +24,7 @@ export class ServicePointsService {
         servicePoint.Phone = dto.Phone;
         servicePoint.Email = dto.Email;
         servicePoint.Fax = dto.Fax;
+        servicePoint.Organization = organization;
 
         await this.servicePoints.save(servicePoint);
     }
@@ -32,32 +34,26 @@ export class ServicePointsService {
         return await this.servicePoints.find();
     }
 
+    async findOneById(Id: number): Promise<ServicePoint> {
+
+        return await this.servicePoints.findOne(Id);
+    }
+
     async update(dto: UpdateServicePointDto) {
 
-        try {
+        const servicePoint = new ServicePoint();
 
-            const servicePoint = new ServicePoint();
+        servicePoint.Name = dto.Name;
+        servicePoint.Adress = dto.Adress;
+        servicePoint.Phone = dto.Phone;
+        servicePoint.Email = dto.Email;
+        servicePoint.Fax = dto.Fax;
 
-            servicePoint.Name = dto.Name;
-            servicePoint.Adress = dto.Adress;
-            servicePoint.Phone = dto.Phone;
-            servicePoint.Email = dto.Email;
-            servicePoint.Fax = dto.Fax;
-
-            await this.servicePoints.update(dto.Id, servicePoint);
-
-        } catch (e) {
-
-        }
+        await this.servicePoints.update(dto.Id, servicePoint);
     }
 
     async Delete(id: number) {
-        try {
-        
-            await this.servicePoints.delete(id);
 
-        } catch (e) {
-
-        }
+        await this.servicePoints.delete(id);
     }
 }

@@ -1,21 +1,18 @@
-import { Get, Post, Delete, Put, Controller, Body, Inject } from '@nestjs/common';
+import { Get, Post, Delete, Put, Controller, Body } from '@nestjs/common';
 import { Organization } from './organization.entity';
 import { OrganizationsService } from './organizations.service';
 import { CreateOrganizationDto } from './organizationDto/create-organization.dto';
 import { UpdateOrganizationDto } from './organizationDto/update-organization.dto';
 import { DeleteOrganizationDto } from './organizationDto/delete-organization.dto';
-import { Employe } from 'employe/employe.entity';
-import { EmployesService } from 'employe/employes.service';
+import { UsersService } from 'user/users.service';
 
 
 @Controller('organizations')
 export class OrganizationsController {
 
     constructor(
-        private readonly employeServerice: EmployesService,
-        private readonly service: OrganizationsService) {
-
-    }
+        private readonly userService: UsersService,
+        private readonly service: OrganizationsService) {}
 
     @Get()
      async findAll():  Promise<Organization[]> {
@@ -26,11 +23,9 @@ export class OrganizationsController {
     @Post()
     async create(@Body() dto: CreateOrganizationDto) {
 
-        //const coord = await this.empService.findOneById(dto.ManagerId);
+        let manager = await this.userService.findOneByEmail(dto.ManagerEmail);
 
-        let emp = await this.employeServerice.findOneById(dto.ManagerId);
-
-        return await this.service.create(dto, emp);      
+        return await this.service.create(dto, manager);
     }
 
     @Put()
@@ -42,6 +37,6 @@ export class OrganizationsController {
     @Delete()
     async delete(@Body() dto: DeleteOrganizationDto) {
         
-        return await this.service.Delete(dto.Id);
+        return await this.service.delete(dto.Id);
     }
 }

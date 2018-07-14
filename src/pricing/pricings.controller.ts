@@ -4,11 +4,14 @@ import { PricingsService } from './pricings.service';
 import { CreatePricingDto } from './pricingDto/create-pricing.dto';
 import { UpdatePricingDto } from './pricingDto/update-pricing.dto';
 import { DeletePricingDto } from './pricingDto/delete-pricing.dto';
+import { ServicesService } from 'service/services.service';
 
 @Controller('pricings')
 export class PricingsController {
 
-    constructor(private readonly service: PricingsService) {}
+    constructor(
+        private readonly servicesService: ServicesService,
+        private readonly service: PricingsService) {}
 
     @Get()
      async findAll():  Promise<Pricing[]> {
@@ -19,7 +22,9 @@ export class PricingsController {
     @Post()
     async create(@Body() dto: CreatePricingDto) {
 
-        return await this.service.create(dto);
+        let service = await this.servicesService.findOneById(dto.ServiceId);
+
+        return await this.service.create(dto, service);
     }
 
     @Put()

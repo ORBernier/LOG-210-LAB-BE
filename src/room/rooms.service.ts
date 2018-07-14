@@ -4,6 +4,7 @@ import { CreateRoomDto } from './roomDto/create-room.dto';
 import { UpdateRoomDto } from './roomDto/update-room.dto';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
+import { ServicePoint } from 'servicePoint/servicePoint.entity';
 
 @Injectable()
 export class RoomsService {
@@ -14,12 +15,13 @@ export class RoomsService {
       ) {}
     
 
-    async create(dto: CreateRoomDto) {
+    async create(dto: CreateRoomDto, servicePoint: ServicePoint) {
 
         const room = new Room();
 
         room.Name = dto.Name;
         room.NbPlaces = dto.NbPlaces;
+        room.ServicePoint = servicePoint;
 
         await this.rooms.save(room);
     }
@@ -31,27 +33,16 @@ export class RoomsService {
 
     async update(dto: UpdateRoomDto) {
 
-        try {
+        const room = new Room();
 
-            const room = new Room();
-
-            room.Name = dto.Name;
-            room.NbPlaces = dto.NbPlaces;
-            
-            await this.rooms.update(dto.Id, room);
-
-        } catch (e) {
-
-        }
+        room.Name = dto.Name;
+        room.NbPlaces = dto.NbPlaces;
+              
+        await this.rooms.update(dto.Id, room);
     }
 
     async Delete(id: number) {
-        try {
         
-            await this.rooms.delete(id);
-
-        } catch (e) {
-
-        }
+        await this.rooms.delete(id);
     }
 }

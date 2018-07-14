@@ -4,11 +4,14 @@ import { ServicesService } from './services.service';
 import { CreateServiceDto } from './serviceDto/create-service.dto';
 import { UpdateServiceDto } from './serviceDto/update-service.dto';
 import { DeleteServiceDto } from './serviceDto/delete-service.dto';
+import { ServicePointsService } from 'servicePoint/servicePoints.service';
 
 @Controller('services')
 export class ServicesController {
 
-    constructor(private readonly service: ServicesService) {}
+    constructor(
+        private readonly servicePointService: ServicePointsService,
+        private readonly service: ServicesService) {}
 
     @Get()
      async findAll():  Promise<Service[]> {
@@ -19,7 +22,9 @@ export class ServicesController {
     @Post()
     async create(@Body() dto: CreateServiceDto) {
 
-        return await this.service.create(dto);
+        let servicePoint = await this.servicePointService.findOneById(dto.ServicePointId);
+
+        return await this.service.create(dto, servicePoint);
     }
 
     @Put()

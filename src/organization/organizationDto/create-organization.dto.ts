@@ -5,5 +5,5 @@ export class CreateOrganizationDto {
     readonly Phone: string;
     readonly Email: string;
     readonly Fax: string;
-    readonly ManagerId: number;
+    readonly ManagerEmail: string;
 }

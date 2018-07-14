@@ -4,6 +4,7 @@ import { CreatePricingDto } from './pricingDto/create-pricing.dto';
 import { UpdatePricingDto } from './pricingDto/update-pricing.dto';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
+import { Service } from 'service/service.entity';
 
 @Injectable()
 export class PricingsService {
@@ -14,7 +15,7 @@ export class PricingsService {
       ) {}
     
 
-    async create(dto: CreatePricingDto) {
+    async create(dto: CreatePricingDto, service: Service) {
 
         const pricing = new Pricing();
 
@@ -22,6 +23,7 @@ export class PricingsService {
         pricing.IsSubventioned = dto.IsSubventioned;
         pricing.CISSSPricing = dto.CISSSPricing;
         pricing.StartDate = dto.StartDate;
+        pricing.Service = service;
 
         await this.pricings.save(pricing);
     }
@@ -31,31 +33,25 @@ export class PricingsService {
         return await this.pricings.find();
     }
 
+    async findOneById(Id: number): Promise<Pricing> {
+
+        return await this.pricings.findOne(Id);
+    }
+
     async update(dto: UpdatePricingDto) {
 
-        try {
+        const pricing = new Pricing();
 
-            const pricing = new Pricing();
-
-            pricing.ParentsPrincing = dto.ParentsPrincing;
-            pricing.IsSubventioned = dto.IsSubventioned;
-            pricing.CISSSPricing = dto.CISSSPricing;
-            pricing.StartDate = dto.StartDate;
+        pricing.ParentsPrincing = dto.ParentsPrincing;
+        pricing.IsSubventioned = dto.IsSubventioned;
+        pricing.CISSSPricing = dto.CISSSPricing;
+        pricing.StartDate = dto.StartDate;
             
-            await this.pricings.update(dto.Id, pricing);
-
-        } catch (e) {
-
-        }
+        await this.pricings.update(dto.Id, pricing);
     }
 
     async Delete(id: number) {
-        try {
         
-            await this.pricings.delete(id);
-
-        } catch (e) {
-
-        }
+        await this.pricings.delete(id);
     }
 }

@@ -4,6 +4,7 @@ import { CreateServiceDto } from './serviceDto/create-service.dto';
 import { UpdateServiceDto } from './serviceDto/update-service.dto';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
+import { ServicePoint } from 'servicePoint/servicePoint.entity';
 
 @Injectable()
 export class ServicesService {
@@ -14,12 +15,14 @@ export class ServicesService {
       ) {}
     
 
-    async create(dto: CreateServiceDto) {
+    async create(dto: CreateServiceDto, servicePoint: ServicePoint) {
 
         const service = new Service();
 
         service.Name = dto.Name;
+        service.Description = dto.Description;
         service.IsActive = dto.IsActive;
+        service.ServicePoint = servicePoint;
 
         await this.services.save(service);
     }
@@ -29,29 +32,24 @@ export class ServicesService {
         return await this.services.find();
     }
 
+    async findOneById(Id: number): Promise<Service> {
+
+        return await this.services.findOne(Id);
+    }
+
     async update(dto: UpdateServiceDto) {
 
-        try {
+        const service = new Service();
 
-            const service = new Service();
-
-            service.Name = dto.Name;
-            service.IsActive = dto.IsActive;
+        service.Name = dto.Name;
+        service.Description = dto.Description;
+        service.IsActive = dto.IsActive;
             
-            await this.services.update(dto.Id, service);
-
-        } catch (e) {
-
-        }
+        await this.services.update(dto.Id, service);
     }
 
     async Delete(id: number) {
-        try {
         
-            await this.services.delete(id);
-
-        } catch (e) {
-
-        }
+        await this.services.delete(id);
     }
 }
