@@ -5,6 +5,7 @@ import { ReferentOrganization } from './referentOrganization.entity';
 import { CreateReferentOrganizationDto } from './referentOrganizationDto/create-referentOrganization.dto';
 import { Organization } from 'organization/organization.entity';
 import { UpdateReferentOrganizationDto } from './referentOrganizationDto/update-referentOrganization.dto';
+import { Adress } from 'adress/adress.entity';
 
 @Injectable()
 export class ReferentOrganizationsService {
@@ -15,12 +16,12 @@ export class ReferentOrganizationsService {
       ) {}
     
 
-    async create(dto: CreateReferentOrganizationDto, Organization: Organization) {
+    async create(dto: CreateReferentOrganizationDto, Organization: Organization, Adress: Adress) {
 
         const referentOrganization = new ReferentOrganization();
 
         referentOrganization.Name = dto.Name;
-        referentOrganization.Adress = dto.Adress;
+        referentOrganization.Adress = Adress;
         referentOrganization.Phone = dto.Phone;
         referentOrganization.Email = dto.Email;
         referentOrganization.Fax = dto.Fax;
@@ -41,13 +42,13 @@ export class ReferentOrganizationsService {
         return await this.referentOrganizations.findOne(Id);
     }
 
-    async update(dto: UpdateReferentOrganizationDto, Organization: Organization) {
+    async update(dto: UpdateReferentOrganizationDto, Organization: Organization, Adress: Adress) {
 
 
         const referentOrganization = new ReferentOrganization();
 
         referentOrganization.Name = dto.Name;
-        referentOrganization.Adress = dto.Adress;
+        referentOrganization.Adress = Adress;
         referentOrganization.Phone = dto.Phone;
         referentOrganization.Email = dto.Email;
         referentOrganization.Fax = dto.Fax;

@@ -5,4 +5,5 @@ export class CreateEmployeeDto {
     readonly Phone: string;
     readonly Role: string;
     readonly UserEmail: string;
+    readonly AdressId: number;
 }

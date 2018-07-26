@@ -5,12 +5,14 @@ import { CreateEmployeeDto } from "./employeeDto/create-employee.dto";
 import { UsersService } from "user/users.service";
 import { UpdateEmployeeDto } from "./employeeDto/update-employee.dto";
 import { DeleteEmployeeDto } from "./employeeDto/delete-employee.dto";
+import { AdressesService } from "adress/adresses.service";
 
 @Controller('employees')
 export class EmployeesController {
 
     constructor(
         private readonly userService: UsersService,
+        private readonly adressesService: AdressesService,
         private readonly service: EmployeesService) {}
 
     @Get()
@@ -24,7 +26,9 @@ export class EmployeesController {
 
         let user = await this.userService.findOneByEmail(dto.UserEmail);
 
-        return await this.service.create(dto, user);
+        let adress = await this.adressesService.findOneById(dto.AdressId);
+
+        return await this.service.create(dto, user, adress);
     }
 
     @Put()
@@ -32,7 +36,9 @@ export class EmployeesController {
 
         let user = await this.userService.findOneByEmail(dto.UserEmail);
 
-        return await this.service.update(dto, user);
+        let adress = await this.adressesService.findOneById(dto.AdressId);
+
+        return await this.service.update(dto, user, adress);
     }
 
     @Delete()

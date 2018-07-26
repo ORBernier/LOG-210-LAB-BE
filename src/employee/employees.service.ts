@@ -5,6 +5,7 @@ import { User } from 'user/user.entity';
 import { Employee } from './employee.entity';
 import { CreateEmployeeDto } from './employeeDto/create-employee.dto';
 import { UpdateEmployeeDto } from './employeeDto/update-employee.dto';
+import { Adress } from 'adress/adress.entity';
 
 @Injectable()
 export class EmployeesService {
@@ -15,7 +16,7 @@ export class EmployeesService {
       ) {}
     
 
-    async create(dto: CreateEmployeeDto, UserAccount: User) {
+    async create(dto: CreateEmployeeDto, UserAccount: User, Adress: Adress) {
 
         const employee = new Employee();
 
@@ -24,6 +25,7 @@ export class EmployeesService {
         employee.Phone = dto.Phone;
         employee.RoleOrganization = dto.Role;
         employee.UserAccount = UserAccount;
+        employee.Adress = Adress;
 
         await this.employees.save(employee);
     }
@@ -38,7 +40,7 @@ export class EmployeesService {
         return await this.employees.findOne(Id);
     }
 
-    async update(dto: UpdateEmployeeDto, UserAccount: User) {
+    async update(dto: UpdateEmployeeDto, UserAccount: User, Adress: Adress) {
 
 
         const employee = new Employee();
@@ -48,6 +50,7 @@ export class EmployeesService {
         employee.Phone = dto.Phone;
         employee.RoleOrganization = dto.Role;
         employee.UserAccount = UserAccount;
+        employee.Adress = Adress;
 
         await this.employees.update(dto.Id, employee);
     }

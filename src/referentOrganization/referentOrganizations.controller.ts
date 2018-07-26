@@ -5,6 +5,7 @@ import { ReferentOrganization } from './referentOrganization.entity';
 import { CreateReferentOrganizationDto } from './referentOrganizationDto/create-referentOrganization.dto';
 import { UpdateReferentOrganizationDto } from './referentOrganizationDto/update-referentOrganization.dto';
 import { DeleteReferentOrganizationDto } from './referentOrganizationDto/delete-referentOrganization.dto';
+import { AdressesService } from 'adress/adresses.service';
 
 
 @Controller('referent_organizations')
@@ -12,6 +13,7 @@ export class ReferentOrganizationsController {
 
     constructor(
         private readonly organizationService: OrganizationsService,
+        private readonly adressesService: AdressesService,
         private readonly service: ReferentOrganizationsService) {}
 
     @Get()
@@ -25,7 +27,9 @@ export class ReferentOrganizationsController {
 
         let organization = await this.organizationService.findOneById(dto.OrganizationId);
 
-        return await this.service.create(dto, organization);
+        let adress = await this.adressesService.findOneById(dto.AdressId);
+
+        return await this.service.create(dto, organization, adress);
     }
 
     @Put()
@@ -33,7 +37,9 @@ export class ReferentOrganizationsController {
 
         let organization = await this.organizationService.findOneById(dto.OrganizationId);
 
-        return await this.service.update(dto, organization);
+        let adress = await this.adressesService.findOneById(dto.AdressId);
+
+        return await this.service.update(dto, organization, adress);
     }
 
     @Delete()

@@ -5,6 +5,7 @@ import { UpdateOrganizationDto } from './organizationDto/update-organization.dto
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from 'user/user.entity';
+import { Adress } from 'adress/adress.entity';
 
 @Injectable()
 export class OrganizationsService {
@@ -15,12 +16,12 @@ export class OrganizationsService {
       ) {}
     
 
-    async create(dto: CreateOrganizationDto, Manager: User) {
+    async create(dto: CreateOrganizationDto, Manager: User, Adress: Adress) {
 
         const organization = new Organization();
 
         organization.Name = dto.Name;
-        organization.Adress = dto.Adress;
+        organization.Adress = Adress;
         organization.Phone = dto.Phone;
         organization.Email = dto.Email;
         organization.Fax = dto.Fax;
@@ -39,13 +40,13 @@ export class OrganizationsService {
         return await this.organizations.findOne(Id);
     }
 
-    async update(dto: UpdateOrganizationDto, Manager: User) {
+    async update(dto: UpdateOrganizationDto, Manager: User, Adress: Adress) {
 
 
         const organization = new Organization();
 
         organization.Name = dto.Name;
-        organization.Adress = dto.Adress;
+        organization.Adress = Adress;
         organization.Phone = dto.Phone;
         organization.Email = dto.Email;
         organization.Fax = dto.Fax;

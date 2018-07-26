@@ -5,6 +5,7 @@ import { UpdateServicePointDto } from './servicePointDto/update-servicePoint.dto
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Organization } from 'organization/organization.entity';
+import { Adress } from 'adress/adress.entity';
 
 @Injectable()
 export class ServicePointsService {
@@ -15,16 +16,16 @@ export class ServicePointsService {
       ) {}
     
 
-    async create(dto: CreateServicePointDto, organization: Organization) {
+    async create(dto: CreateServicePointDto, Organization: Organization, Adress: Adress) {
 
         const servicePoint = new ServicePoint();
 
         servicePoint.Name = dto.Name;
-        servicePoint.Adress = dto.Adress;
+        servicePoint.Adress = Adress;
         servicePoint.Phone = dto.Phone;
         servicePoint.Email = dto.Email;
         servicePoint.Fax = dto.Fax;
-        servicePoint.Organization = organization;
+        servicePoint.Organization = Organization;
 
         await this.servicePoints.save(servicePoint);
     }
@@ -39,15 +40,16 @@ export class ServicePointsService {
         return await this.servicePoints.findOne(Id);
     }
 
-    async update(dto: UpdateServicePointDto) {
+    async update(dto: UpdateServicePointDto, Organization: Organization, Adress: Adress) {
 
         const servicePoint = new ServicePoint();
 
         servicePoint.Name = dto.Name;
-        servicePoint.Adress = dto.Adress;
+        servicePoint.Adress = Adress;
         servicePoint.Phone = dto.Phone;
         servicePoint.Email = dto.Email;
         servicePoint.Fax = dto.Fax;
+        servicePoint.Organization = Organization;
 
         await this.servicePoints.update(dto.Id, servicePoint);
     }

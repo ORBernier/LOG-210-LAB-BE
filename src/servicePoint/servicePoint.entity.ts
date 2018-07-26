@@ -1,5 +1,6 @@
 import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
 import { Organization } from 'organization/organization.entity';
+import { Adress } from 'adress/adress.entity';
 
 @Entity()
 export class ServicePoint {
@@ -10,8 +11,8 @@ export class ServicePoint {
     @Column({length: 250})
     Name: string;
 
-    @Column({length: 250})
-    Adress: string;
+    @Column()
+    Adress: Adress;
 
     @Column({length: 25})
     Phone: string;

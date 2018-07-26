@@ -5,12 +5,14 @@ import { CreateServicePointDto } from './servicePointDto/create-servicePoint.dto
 import { UpdateServicePointDto } from './servicePointDto/update-servicePoint.dto';
 import { DeleteServicePointDto } from './servicePointDto/delete-servicePoint.dto';
 import { OrganizationsService } from 'organization/organizations.service';
+import { AdressesService } from 'adress/adresses.service';
 
 @Controller('service_points')
 export class ServicePointsController {
 
     constructor(
         private readonly service: ServicePointsService,
+        private readonly adressesService: AdressesService,
         private readonly organizationService: OrganizationsService) {}
 
     @Get()
@@ -24,13 +26,19 @@ export class ServicePointsController {
 
         let organization = await this.organizationService.findOneById(dto.OrganizationId);
 
-        return await this.service.create(dto, organization);
+        let adress = await this.adressesService.findOneById(dto.AdressId);
+
+        return await this.service.create(dto, organization, adress);
     }
 
     @Put()
     async update(@Body() dto: UpdateServicePointDto) {
+        
+        let organization = await this.organizationService.findOneById(dto.OrganizationId);
 
-        return await this.service.update(dto);
+        let adress = await this.adressesService.findOneById(dto.AdressId);
+
+        return await this.service.update(dto, organization, adress);
     }
 
     @Delete()

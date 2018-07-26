@@ -1,5 +1,6 @@
 import { Entity, PrimaryGeneratedColumn, Column, OneToOne } from "typeorm";
 import { User } from "user/user.entity";
+import { Adress } from "adress/adress.entity";
 
 @Entity()
 export class Employee {
@@ -21,4 +22,7 @@ export class Employee {
 
     @OneToOne(type => User)
     UserAccount: User;
+
+    @Column()
+    Adress: Adress;
 }
