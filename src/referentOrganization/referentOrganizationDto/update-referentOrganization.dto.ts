@@ -1,4 +1,4 @@
-export class UpdateOrganizationDto {
+export class UpdateReferentOrganizationDto {
     
     readonly Id: number;
     readonly Name: string;
@@ -6,5 +6,7 @@ export class UpdateOrganizationDto {
     readonly Phone: string;
     readonly Email: string;
     readonly Fax: string;
-    readonly ManagerEmail: string;
+    readonly WebSite: string;
+    readonly IsActive: boolean;
+    readonly OrganizationId: number;
 }

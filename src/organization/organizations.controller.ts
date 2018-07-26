@@ -31,7 +31,9 @@ export class OrganizationsController {
     @Put()
     async update(@Body() dto: UpdateOrganizationDto) {
 
-        return await this.service.update(dto);
+        let manager = await this.userService.findOneByEmail(dto.ManagerEmail);
+
+        return await this.service.update(dto, manager);
     }
 
     @Delete()

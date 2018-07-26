@@ -1,10 +1,11 @@
-export class UpdateOrganizationDto {
+export class CreateReferentOrganizationDto {
     
-    readonly Id: number;
     readonly Name: string;
     readonly Adress: string;
     readonly Phone: string;
     readonly Email: string;
     readonly Fax: string;
-    readonly ManagerEmail: string;
+    readonly WebSite: string;
+    readonly IsActive: boolean;
+    readonly OrganizationId: number;
 }

@@ -9,10 +9,14 @@ import { ServicePointsModule } from 'servicePoint/servicePoints.module';
 import { ServicesModule } from 'service/services.module';
 import { RoomsModule } from 'room/rooms.module';
 import { PricingsModule } from 'pricing/pricings.module';
+import { ReferentOrganizationsModule } from 'referentOrganization/referentOrganizations.module';
+import { ReferentsModule } from 'referent/referents.module';
+import { EmployeesModule } from 'employee/employees.module';
 
 @Module({
   imports: [TypeOrmModule.forRoot(), UsersModule, OrganizationsModule,
-    ServicePointsModule, ServicesModule, RoomsModule, PricingsModule],
+    ServicePointsModule, ServicesModule, RoomsModule, PricingsModule, 
+    ReferentOrganizationsModule, ReferentsModule, EmployeesModule],
   controllers: [AppController],
   providers: [AppService], 
 })

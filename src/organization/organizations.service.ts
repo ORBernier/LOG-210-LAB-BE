@@ -39,7 +39,7 @@ export class OrganizationsService {
         return await this.organizations.findOne(Id);
     }
 
-    async update(dto: UpdateOrganizationDto) {
+    async update(dto: UpdateOrganizationDto, Manager: User) {
 
 
         const organization = new Organization();
@@ -49,6 +49,7 @@ export class OrganizationsService {
         organization.Phone = dto.Phone;
         organization.Email = dto.Email;
         organization.Fax = dto.Fax;
+        organization.Manager = Manager;
 
         await this.organizations.update(dto.Id, organization);
     }
