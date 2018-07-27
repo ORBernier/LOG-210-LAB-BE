@@ -23,6 +23,6 @@ export class Employee {
     @OneToOne(type => User)
     UserAccount: User;
 
-    @Column()
+    @OneToOne(type => Adress)
     Adress: Adress;
 }

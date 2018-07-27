@@ -1,4 +1,4 @@
-import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, OneToOne } from 'typeorm';
 import { Organization } from 'organization/organization.entity';
 import { Adress } from 'adress/adress.entity';
 
@@ -11,7 +11,7 @@ export class ReferentOrganization {
     @Column({length: 250})
     Name: string;
 
-    @Column()
+    @OneToOne(type => Adress)
     Adress: Adress;
 
     @Column({length: 25})
