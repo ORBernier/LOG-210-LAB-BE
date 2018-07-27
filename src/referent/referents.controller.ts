@@ -6,6 +6,7 @@ import { CreateReferentDto } from './referentDto/create-referent.dto';
 import { UpdateReferentDto } from './referentDto/update-referent.dto';
 import { DeleteReferentDto } from './referentDto/delete-referent.dto';
 
+@Controller('referents')
 export class ReferentsController {
 
     constructor(
