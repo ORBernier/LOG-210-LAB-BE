@@ -32,6 +32,11 @@ export class ServicesService {
         return await this.services.find();
     }
 
+    async findSomeById(Ids: number[]): Promise<Service[]> {
+
+        return await this.services.findByIds(Ids);
+    }
+
     async findOneById(Id: number): Promise<Service> {
 
         return await this.services.findOne(Id);
