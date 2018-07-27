@@ -12,11 +12,12 @@ import { PricingsModule } from 'pricing/pricings.module';
 import { ReferentOrganizationsModule } from 'referentOrganization/referentOrganizations.module';
 import { ReferentsModule } from 'referent/referents.module';
 import { EmployeesModule } from 'employee/employees.module';
+import { AdressesModule } from 'adress/adresses.module';
 
 @Module({
   imports: [TypeOrmModule.forRoot(), UsersModule, OrganizationsModule,
     ServicePointsModule, ServicesModule, RoomsModule, PricingsModule, 
-    ReferentOrganizationsModule, ReferentsModule, EmployeesModule],
+    ReferentOrganizationsModule, ReferentsModule, EmployeesModule, AdressesModule],
   controllers: [AppController],
   providers: [AppService], 
 })
