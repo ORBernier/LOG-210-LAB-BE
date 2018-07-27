@@ -1,4 +1,4 @@
-import { Get, Post, Delete, Put, Controller, Body } from '@nestjs/common';
+import { Get, Post, Delete, Put, Controller, Body, Param } from '@nestjs/common';
 import { OrganizationsService } from 'organization/organizations.service';
 import { ReferentOrganizationsService } from './referentOrganizations.service';
 import { ReferentOrganization } from './referentOrganization.entity';
@@ -20,6 +20,12 @@ export class ReferentOrganizationsController {
      async findAll():  Promise<ReferentOrganization[]> {
 
         return await this.service.findAll();
+    }
+
+    @Get(':id')
+    async findOneById(@Param('id') Id): Promise<ReferentOrganization> {
+
+        return await this.service.findOneById(Id);
     }
 
     @Post()

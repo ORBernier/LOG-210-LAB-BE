@@ -1,4 +1,4 @@
-import { Get, Post, Delete, Put, Controller, Body } from '@nestjs/common';
+import { Get, Post, Delete, Put, Controller, Body, Param } from '@nestjs/common';
 import { Service } from './service.entity';
 import { ServicesService } from './services.service';
 import { CreateServiceDto } from './serviceDto/create-service.dto';
@@ -17,6 +17,12 @@ export class ServicesController {
      async findAll():  Promise<Service[]> {
 
         return await this.service.findAll();
+    }
+
+    @Get(':id')
+    async findOneById(@Param('id') Id): Promise<Service> {
+
+        return await this.findOneById(Id);
     }
 
     @Post()

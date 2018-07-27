@@ -1,4 +1,4 @@
-import { Get, Post, Delete, Put, Controller, Body } from '@nestjs/common';
+import { Get, Post, Delete, Put, Controller, Body, Param } from '@nestjs/common';
 import { Organization } from './organization.entity';
 import { OrganizationsService } from './organizations.service';
 import { CreateOrganizationDto } from './organizationDto/create-organization.dto';
@@ -20,6 +20,12 @@ export class OrganizationsController {
      async findAll():  Promise<Organization[]> {
 
         return await this.service.findAll();
+    }
+
+    @Get(':id')
+    async findOneById(@Param('id') Id): Promise<Organization> {
+
+        return await this.service.findOneById(Id);
     }
 
     @Post()

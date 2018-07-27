@@ -1,6 +1,5 @@
-import { Get, Post, Delete, Put, Controller, Body } from '@nestjs/common';
+import { Get, Post, Delete, Put, Controller, Body, Param } from '@nestjs/common';
 import { Room } from './room.entity';
-import { ServicePoint } from '../servicePoint/servicePoint.entity';
 import { RoomsService } from './rooms.service';
 import { CreateRoomDto } from './roomDto/create-room.dto';
 import { UpdateRoomDto } from './roomDto/update-room.dto';
@@ -20,6 +19,12 @@ export class RoomsController {
      async findAll():  Promise<Room[]> {
 
         return await this.service.findAll();
+    }
+
+    @Get(':id')
+    async findOneByOne(@Param('id') Id): Promise<Room> {
+
+        return await this.service.findOneById(Id);
     }
 
     @Post()

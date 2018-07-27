@@ -33,6 +33,11 @@ export class RoomsService {
         return await this.rooms.find();
     }
 
+    async findOneById(Id: number) {
+
+        return await this.rooms.findOne(Id);
+    }
+
     async update(dto: UpdateRoomDto, ServicePoint: ServicePoint, Services: Service[]) {
 
         const room = new Room();

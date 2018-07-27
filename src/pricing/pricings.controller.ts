@@ -1,4 +1,4 @@
-import { Get, Post, Delete, Put, Controller, Body } from '@nestjs/common';
+import { Get, Post, Delete, Put, Controller, Body, Param } from '@nestjs/common';
 import { Pricing } from './pricing.entity';
 import { PricingsService } from './pricings.service';
 import { CreatePricingDto } from './pricingDto/create-pricing.dto';
@@ -17,6 +17,12 @@ export class PricingsController {
      async findAll():  Promise<Pricing[]> {
 
         return await this.service.findAll();
+    }
+
+    @Get(':id')
+    async findOneById(@Param('id') Id): Promise<Pricing> {
+
+        return await this.service.findOneById(Id);
     }
 
     @Post()

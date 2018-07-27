@@ -1,4 +1,4 @@
-import { Get, Post, Delete, Put, Controller, Body } from '@nestjs/common';
+import { Get, Post, Delete, Put, Controller, Body, Param } from '@nestjs/common';
 import { ServicePoint } from './servicePoint.entity';
 import { ServicePointsService } from './servicePoints.service';
 import { CreateServicePointDto } from './servicePointDto/create-servicePoint.dto';
@@ -19,6 +19,12 @@ export class ServicePointsController {
     async findAll():  Promise<ServicePoint[]> {
 
         return await this.service.findAll();
+    }
+
+    @Get(':id')
+    async findOneById(@Param('id') Id): Promise<ServicePoint> {
+
+        return await this.service.findOneById(Id);
     }
 
     @Post()
