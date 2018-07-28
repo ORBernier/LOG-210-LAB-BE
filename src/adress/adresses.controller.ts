@@ -17,7 +17,7 @@ export class AdressesController {
     }
 
     @Get(':id')
-    async findOneByEmail(@Param('id') Id): Promise<Adress> {
+    async findOneById(@Param('id') Id): Promise<Adress> {
 
         return await this.service.findOneById(Id);
     }
