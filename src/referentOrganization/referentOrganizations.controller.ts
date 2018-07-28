@@ -29,7 +29,7 @@ export class ReferentOrganizationsController {
     }
 
     @Post()
-    async create(@Body() dto: CreateReferentOrganizationDto) {
+    async create(@Body() dto: CreateReferentOrganizationDto): Promise<number> {
 
         let organization = await this.organizationService.findOneById(dto.OrganizationId);
 

@@ -28,7 +28,7 @@ export class EmployeesController {
     }
 
     @Post()
-    async create(@Body() dto: CreateEmployeeDto) {
+    async create(@Body() dto: CreateEmployeeDto): Promise<number> {
 
         let user = await this.userService.findOneByEmail(dto.UserEmail);
 

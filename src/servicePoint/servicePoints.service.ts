@@ -16,7 +16,7 @@ export class ServicePointsService {
       ) {}
     
 
-    async create(dto: CreateServicePointDto, Organization: Organization, Adress: Adress) {
+    async create(dto: CreateServicePointDto, Organization: Organization, Adress: Adress): Promise<number> {
 
         const servicePoint = new ServicePoint();
 
@@ -28,6 +28,8 @@ export class ServicePointsService {
         servicePoint.Organization = Organization;
 
         await this.servicePoints.save(servicePoint);
+
+        return servicePoint.Id;
     }
 
     async findAll(): Promise<ServicePoint[]> {

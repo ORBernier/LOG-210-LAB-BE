@@ -16,7 +16,7 @@ export class OrganizationsService {
       ) {}
     
 
-    async create(dto: CreateOrganizationDto, Manager: User, Adress: Adress) {
+    async create(dto: CreateOrganizationDto, Manager: User, Adress: Adress): Promise<number> {
 
         const organization = new Organization();
 
@@ -28,6 +28,8 @@ export class OrganizationsService {
         organization.Manager = Manager;
 
         await this.organizations.save(organization);
+
+        return organization.Id;
     }
 
     async findAll(): Promise<Organization[]> {

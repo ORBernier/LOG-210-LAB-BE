@@ -16,7 +16,7 @@ export class RoomsService {
       ) {}
     
 
-    async create(dto: CreateRoomDto, ServicePoint: ServicePoint, Services: Service[]) {
+    async create(dto: CreateRoomDto, ServicePoint: ServicePoint, Services: Service[]): Promise<number> {
 
         const room = new Room();
 
@@ -26,6 +26,8 @@ export class RoomsService {
         room.Services = Services;
 
         await this.rooms.save(room);
+
+        return room.Id;
     }
 
     async findAll(): Promise<Room[]> {

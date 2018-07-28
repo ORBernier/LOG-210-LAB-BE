@@ -15,21 +15,23 @@ export class ReferentsService {
       ) {}
     
 
-    async create(dto: CreateReferentDto, ReferentOrganization: ReferentOrganization) {
+    async create(dto: CreateReferentDto, ReferentOrganization: ReferentOrganization): Promise<number> {
 
-        const referentOrganization = new Referent();
+        const referent = new Referent();
 
-        referentOrganization.Name = dto.Name;
-        referentOrganization.CellularPhone = dto.CellularPhone;
-        referentOrganization.Phone = dto.Phone;
-        referentOrganization.Email = dto.Email;
-        referentOrganization.Fax = dto.Fax;
-        referentOrganization.IsPaper = dto.IsPaper;
-        referentOrganization.IsEmail = dto.IsEmail;
-        referentOrganization.IsFax = dto.IsFax;
-        referentOrganization.ReferentOrganization = ReferentOrganization;
+        referent.Name = dto.Name;
+        referent.CellularPhone = dto.CellularPhone;
+        referent.Phone = dto.Phone;
+        referent.Email = dto.Email;
+        referent.Fax = dto.Fax;
+        referent.IsPaper = dto.IsPaper;
+        referent.IsEmail = dto.IsEmail;
+        referent.IsFax = dto.IsFax;
+        referent.ReferentOrganization = ReferentOrganization;
 
-        await this.referents.save(referentOrganization);
+        await this.referents.save(referent);
+
+        return referent.Id;
     }
 
     async findAll(): Promise<Referent[]> {
@@ -45,19 +47,19 @@ export class ReferentsService {
     async update(dto: UpdateReferentDto, ReferentOrganization: ReferentOrganization) {
 
 
-        const referentOrganization = new Referent();
+        const referent = new Referent();
 
-        referentOrganization.Name = dto.Name;
-        referentOrganization.CellularPhone = dto.CellularPhone;
-        referentOrganization.Phone = dto.Phone;
-        referentOrganization.Email = dto.Email;
-        referentOrganization.Fax = dto.Fax;
-        referentOrganization.IsPaper = dto.IsPaper;
-        referentOrganization.IsEmail = dto.IsEmail;
-        referentOrganization.IsFax = dto.IsFax;
-        referentOrganization.ReferentOrganization = ReferentOrganization;
+        referent.Name = dto.Name;
+        referent.CellularPhone = dto.CellularPhone;
+        referent.Phone = dto.Phone;
+        referent.Email = dto.Email;
+        referent.Fax = dto.Fax;
+        referent.IsPaper = dto.IsPaper;
+        referent.IsEmail = dto.IsEmail;
+        referent.IsFax = dto.IsFax;
+        referent.ReferentOrganization = ReferentOrganization;
 
-        await this.referents.update(dto.Id, referentOrganization);
+        await this.referents.update(dto.Id, referent);
     }
 
     async delete(id: number) {

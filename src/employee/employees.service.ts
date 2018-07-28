@@ -16,7 +16,7 @@ export class EmployeesService {
       ) {}
     
 
-    async create(dto: CreateEmployeeDto, UserAccount: User, Adress: Adress) {
+    async create(dto: CreateEmployeeDto, UserAccount: User, Adress: Adress): Promise<number> {
 
         const employee = new Employee();
 
@@ -28,6 +28,8 @@ export class EmployeesService {
         employee.Adress = Adress;
 
         await this.employees.save(employee);
+
+        return employee.Id;
     }
 
     async findAll(): Promise<Employee[]> {

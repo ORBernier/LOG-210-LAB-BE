@@ -26,7 +26,7 @@ export class PricingsController {
     }
 
     @Post()
-    async create(@Body() dto: CreatePricingDto) {
+    async create(@Body() dto: CreatePricingDto): Promise<number> {
 
         let service = await this.servicesService.findOneById(dto.ServiceId);
 

@@ -16,7 +16,7 @@ export class ReferentOrganizationsService {
       ) {}
     
 
-    async create(dto: CreateReferentOrganizationDto, Organization: Organization, Adress: Adress) {
+    async create(dto: CreateReferentOrganizationDto, Organization: Organization, Adress: Adress): Promise<number> {
 
         const referentOrganization = new ReferentOrganization();
 
@@ -30,6 +30,8 @@ export class ReferentOrganizationsService {
         referentOrganization.Organization = Organization;
 
         await this.referentOrganizations.save(referentOrganization);
+
+        return referentOrganization.Id;
     }
 
     async findAll(): Promise<ReferentOrganization[]> {

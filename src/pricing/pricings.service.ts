@@ -15,7 +15,7 @@ export class PricingsService {
       ) {}
     
 
-    async create(dto: CreatePricingDto, service: Service) {
+    async create(dto: CreatePricingDto, service: Service): Promise<number> {
 
         const pricing = new Pricing();
 
@@ -26,6 +26,8 @@ export class PricingsService {
         pricing.Service = service;
 
         await this.pricings.save(pricing);
+
+        return pricing.Id;
     }
 
     async findAll(): Promise<Pricing[]> {

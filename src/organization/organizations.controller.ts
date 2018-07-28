@@ -29,7 +29,7 @@ export class OrganizationsController {
     }
 
     @Post()
-    async create(@Body() dto: CreateOrganizationDto) {
+    async create(@Body() dto: CreateOrganizationDto): Promise<number> {
 
         let manager = await this.userService.findOneByEmail(dto.ManagerEmail);
 

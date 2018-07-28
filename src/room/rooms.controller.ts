@@ -28,7 +28,7 @@ export class RoomsController {
     }
 
     @Post()
-    async create(@Body() dto: CreateRoomDto) {
+    async create(@Body() dto: CreateRoomDto): Promise<number> {
 
         let servicePoint = await this.servicePointService.findOneById(dto.ServicePointId);
 

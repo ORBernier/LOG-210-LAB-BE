@@ -26,7 +26,7 @@ export class ReferentsController {
     }
 
     @Post()
-    async create(@Body() dto: CreateReferentDto) {
+    async create(@Body() dto: CreateReferentDto): Promise<number> {
 
         let organization = await this.referentOrganizationService.findOneById(dto.ReferentOrgId);
 

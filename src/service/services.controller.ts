@@ -26,7 +26,7 @@ export class ServicesController {
     }
 
     @Post()
-    async create(@Body() dto: CreateServiceDto) {
+    async create(@Body() dto: CreateServiceDto): Promise<number> {
 
         let servicePoint = await this.servicePointService.findOneById(dto.ServicePointId);
 
