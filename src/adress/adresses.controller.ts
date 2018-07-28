@@ -1,4 +1,4 @@
-import { Get, Post, Delete, Put, Controller, Body } from '@nestjs/common';
+import { Get, Post, Delete, Put, Controller, Body, Param } from '@nestjs/common';
 import { AdressesService } from './adresses.service';
 import { Adress } from './adress.entity';
 import { CreateAdressDto } from './adressDto/create-adress.dto';
@@ -16,13 +16,14 @@ export class AdressesController {
         return await this.service.findAll();
     }
 
-    async findOneByEmail(Id: number): Promise<Adress> {
+    @Get(':id')
+    async findOneByEmail(@Param('id') Id): Promise<Adress> {
 
         return await this.service.findOneById(Id);
     }
 
     @Post()
-    async create(@Body() dto: CreateAdressDto) {
+    async create(@Body() dto: CreateAdressDto): Promise<number> {
 
         return await this.service.create(dto);
     }

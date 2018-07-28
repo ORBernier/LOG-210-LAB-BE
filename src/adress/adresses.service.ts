@@ -14,7 +14,7 @@ export class AdressesService {
       ) {}
     
 
-    async create(dto: CreateAdressDto) {
+    async create(dto: CreateAdressDto): Promise<number> {
 
         const adress = new Adress();
 
@@ -25,6 +25,8 @@ export class AdressesService {
         adress.PostalCode = dto.PostalCode;
 
         await this.users.save(adress);
+
+        return await adress.Id;
     }
 
     async findAll(): Promise<Adress[]> {
