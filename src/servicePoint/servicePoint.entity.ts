@@ -1,4 +1,4 @@
-import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, OneToOne } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, OneToOne, JoinColumn } from 'typeorm';
 import { Organization } from 'organization/organization.entity';
 import { Adress } from 'adress/adress.entity';
 
@@ -11,6 +11,7 @@ export class ServicePoint {
     @Column({length: 250})
     Name: string;
 
+    @JoinColumn()
     @OneToOne(type => Adress)
     Adress: Adress;
 
