@@ -9,14 +9,14 @@ describe('UsersController', () => {
     let repo: Repository<User>;
     
 
-    beforeEach(async () => {
+    beforeEach(() => {
         repo = new Repository<User>();
         service = new UsersService(repo);
         controller = new UsersController(service);
     });
 
     describe('Test user', () => {
-        it('Should return the user created.', async () => {
+        it('Should test the user creation.', async () => {
 
             let text = await '{"Email":"el.senior.rodriguez@aye.caramba.me", "Role":"Directeur"}';
             let dto = await JSON.parse(text);
