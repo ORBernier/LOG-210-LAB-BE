@@ -6,6 +6,7 @@ import { Employee } from './employee.entity';
 import { CreateEmployeeDto } from './employeeDto/create-employee.dto';
 import { UpdateEmployeeDto } from './employeeDto/update-employee.dto';
 import { Adress } from 'adress/adress.entity';
+import { Organization } from 'organization/organization.entity';
 
 @Injectable()
 export class EmployeesService {
@@ -35,6 +36,15 @@ export class EmployeesService {
     async findAll(): Promise<Employee[]> {
 
         return await this.employees.find();
+    }
+
+    async findSomeByOrg(Organization: Organization): Promise<Employee[]> {
+
+        let result = await this.employees.find();
+
+        let filteredResult = result.filter((element) => element.Organization.Id == Organization.Id)
+
+        return filteredResult;        
     }
 
     async findOneById(Id: number): Promise<Employee> {

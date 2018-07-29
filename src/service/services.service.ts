@@ -34,6 +34,15 @@ export class ServicesService {
         return await this.services.find();
     }
 
+    async findSomeByServPoint(ServicePoint: ServicePoint): Promise<Service[]> {
+
+        let result = await this.services.find();
+
+        let filteredResult = result.filter((element) => element.ServicePoint.Id == ServicePoint.Id)
+
+        return filteredResult;        
+    }
+
     async findSomeById(Ids: number[]): Promise<Service[]> {
 
         return await this.services.findByIds(Ids);

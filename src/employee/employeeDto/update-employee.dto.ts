@@ -7,4 +7,5 @@ export class UpdateEmployeeDto {
     readonly Role: string;
     readonly UserEmail: string;
     readonly AdressId: number;
+    readonly OrganizationId: number;
 }

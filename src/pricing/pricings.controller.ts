@@ -19,6 +19,14 @@ export class PricingsController {
         return await this.service.findAll();
     }
 
+    @Get('service/:id')
+    async findSomeByServiceId(@Param('id') Id): Promise<Pricing[]> {
+
+        let service = await this.servicesService.findOneById(Id);
+
+        return await this.service.findSomeByService(service);
+    }
+
     @Get(':id')
     async findOneById(@Param('id') Id): Promise<Pricing> {
 

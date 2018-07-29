@@ -21,6 +21,14 @@ export class ServicePointsController {
         return await this.service.findAll();
     }
 
+    @Get('org/:id')
+    async findSomeByOrgId(@Param('id') Id): Promise<ServicePoint[]> {
+
+        let organization = await this.organizationService.findOneById(Id);
+
+        return await this.service.findSomeByOrg(organization);
+    }
+
     @Get(':id')
     async findOneById(@Param('id') Id): Promise<ServicePoint> {
 

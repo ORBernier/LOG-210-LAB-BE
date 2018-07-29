@@ -39,6 +39,15 @@ export class ReferentOrganizationsService {
         return await this.referentOrganizations.find();
     }
 
+    async findSomeByOrg(Organization: Organization): Promise<ReferentOrganization[]> {
+
+        let result = await this.referentOrganizations.find();
+
+        let filteredResult = result.filter((element) => element.Organization.Id == Organization.Id)
+
+        return filteredResult;        
+    }
+
     async findOneById(Id: number): Promise<ReferentOrganization> {
 
         return await this.referentOrganizations.findOne(Id);

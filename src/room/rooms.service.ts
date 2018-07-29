@@ -35,6 +35,15 @@ export class RoomsService {
         return await this.rooms.find();
     }
 
+    async findSomeByServPoint(ServicePoint: ServicePoint): Promise<Room[]> {
+
+        let result = await this.rooms.find();
+
+        let filteredResult = result.filter((element) => element.ServicePoint.Id == ServicePoint.Id)
+
+        return filteredResult;        
+    }
+
     async findOneById(Id: number) {
 
         return await this.rooms.findOne(Id);

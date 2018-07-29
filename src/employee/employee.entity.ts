@@ -1,6 +1,7 @@
-import { Entity, PrimaryGeneratedColumn, Column, OneToOne, JoinColumn } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column, OneToOne, JoinColumn, ManyToOne } from "typeorm";
 import { User } from "user/user.entity";
 import { Adress } from "adress/adress.entity";
+import { Organization } from "organization/organization.entity";
 
 @Entity()
 export class Employee {
@@ -27,4 +28,7 @@ export class Employee {
     @JoinColumn()
     @OneToOne(type => Adress)
     Adress: Adress;
+
+    @ManyToOne(type => Organization)
+    Organization: Organization;
 }
