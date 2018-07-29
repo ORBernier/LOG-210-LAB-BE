@@ -1,6 +1,8 @@
 import { Test } from '@nestjs/testing';
 import { UsersController } from './users.controller';
 import { UsersService } from './users.service';
+import { TypeOrmModule } from '../../node_modules/@nestjs/typeorm';
+import { User } from './user.entity';
 
 describe('UsersController', () => {
     let controller: UsersController;
@@ -9,8 +11,9 @@ describe('UsersController', () => {
 
     beforeEach(async () => {
         const module = await Test.createTestingModule({
+            imports: [TypeOrmModule.forFeature([User])],
             controllers: [UsersController],
-            providers: [UsersService]
+            providers: [UsersService],
         }).compile();
 
         controller = module.get<UsersController>(UsersController);
