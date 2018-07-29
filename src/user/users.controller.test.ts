@@ -1,23 +1,18 @@
-import { Test } from '@nestjs/testing';
 import { UsersController } from './users.controller';
 import { UsersService } from './users.service';
-import { TypeOrmModule } from '../../node_modules/@nestjs/typeorm';
 import { User } from './user.entity';
+import { Repository } from '../../node_modules/typeorm';
 
 describe('UsersController', () => {
     let controller: UsersController;
     let service: UsersService;
+    let repo: Repository<User>;
     
 
     beforeEach(async () => {
-        const module = await Test.createTestingModule({
-            imports: [TypeOrmModule.forFeature([User])],
-            controllers: [UsersController],
-            providers: [UsersService],
-        }).compile();
-
-        controller = module.get<UsersController>(UsersController);
-        service = module.get<UsersService>(UsersService);
+        repo = new Repository<User>();
+        service = new UsersService(repo);
+        controller = new UsersController(service);
     });
 
     describe('Test user', () => {
