@@ -14,6 +14,7 @@ import { OrganizationsModule } from 'organization/organizations.module';
                 ServicePointsModule, UsersModule, AdressesModule,
                 OrganizationsModule],
     controllers: [PricingsController],
-    providers: [PricingsService]
+    providers: [PricingsService],
+    exports: [PricingsService]
 })
 export class PricingsModule {}

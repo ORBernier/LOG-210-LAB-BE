@@ -7,11 +7,14 @@ import { User } from './user.entity';
     let controller: UsersController;
     let service: UsersService;
     let repo: Repository<User>
+
     
-     beforeEach(async () => {
+    
+     beforeEach(() => {
         repo = new Repository<User>();
         service = new UsersService(repo);
         controller = new UsersController(service);
+        
     });
 
      describe('Test users', () => {

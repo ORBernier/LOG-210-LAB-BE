@@ -11,6 +11,7 @@ import { OrganizationsModule } from 'organization/organizations.module';
     imports: [TypeOrmModule.forFeature([Employee]), 
                 UsersModule, AdressesModule, OrganizationsModule],
     controllers: [EmployeesController],
-    providers: [EmployeesService]
+    providers: [EmployeesService],
+    exports: [EmployeesService]
 })
 export class EmployeesModule {}
