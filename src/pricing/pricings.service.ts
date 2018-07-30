@@ -49,7 +49,7 @@ export class PricingsService {
         return await this.pricings.findOne(Id);
     }
 
-    async update(dto: UpdatePricingDto) {
+    async update(dto: UpdatePricingDto, Service: Service) {
 
         const pricing = new Pricing();
 
@@ -57,6 +57,7 @@ export class PricingsService {
         pricing.IsSubventioned = dto.IsSubventioned;
         pricing.CISSSPricing = dto.CISSSPricing;
         pricing.StartDate = dto.StartDate;
+        pricing.Service = Service;
             
         await this.pricings.update(dto.Id, pricing);
     }

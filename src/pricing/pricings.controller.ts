@@ -44,7 +44,9 @@ export class PricingsController {
     @Put()
     async update(@Body() dto: UpdatePricingDto) {
 
-        return await this.service.update(dto);
+        let service = await this.servicesService.findOneById(dto.ServiceId);
+
+        return await this.service.update(dto, service);
     }
 
     @Delete()
