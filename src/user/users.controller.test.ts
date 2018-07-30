@@ -2,6 +2,7 @@ import { UsersController } from './users.controller';
 import { UsersService } from './users.service';
 import { User } from './user.entity';
 import { Repository } from '../../node_modules/typeorm';
+import { Test } from '@nestjs/testing';
 
 describe('UsersController', () => {
     let controller: UsersController;
@@ -9,10 +10,14 @@ describe('UsersController', () => {
     let repo: Repository<User>;
     
 
-    beforeEach(() => {
-        repo = new Repository<User>();
-        service = new UsersService(repo);
-        controller = new UsersController(service);
+    beforeEach(async () => {
+        const module = await Test.createTestingModule({
+            controllers: [UsersController],
+            providers: [UsersService],
+          }).compile();
+    
+        service = module.get<UsersService>(UsersService);
+        controller = module.get<UsersController>(UsersController);
     });
 
     describe('Test user', () => {
@@ -36,9 +41,9 @@ describe('UsersController', () => {
             text = await '{"Email":"el.senior.rodriguez@aye.caramba.me"}';
             dto = await JSON.parse(text);
             await controller.delete(dto);
-            let Allresult = await controller.findAll();
+            let allResult = await controller.findAll();
             
-            await expect(Allresult).toBe([]);
+            await expect(allResult).toBe([]);
         });
     });
 });
