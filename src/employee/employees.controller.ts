@@ -2,7 +2,6 @@ import { Controller, Get, Post, Put, Delete, Body, Param } from "@nestjs/common"
 import { EmployeesService } from "./employees.service";
 import { Employee } from "./employee.entity";
 import { CreateEmployeeDto } from "./employeeDto/create-employee.dto";
-import { UsersService } from "user/users.service";
 import { UpdateEmployeeDto } from "./employeeDto/update-employee.dto";
 import { DeleteEmployeeDto } from "./employeeDto/delete-employee.dto";
 import { AdressesService } from "adress/adresses.service";
@@ -13,7 +12,6 @@ export class EmployeesController {
 
     constructor(
         private readonly organizationService: OrganizationsService,
-        private readonly userService: UsersService,
         private readonly adressesService: AdressesService,
         private readonly service: EmployeesService) {}
 
@@ -21,14 +19,6 @@ export class EmployeesController {
      async findAll(): Promise<Employee[]> {
 
         return await this.service.findAll();
-    }
-
-    @Get(':org_id')
-    async findSomeByOrgId(@Param('org_id') Id): Promise<Employee[]> {
-
-        let organization = await this.organizationService.findOneById(Id);
-
-        return await this.service.findSomeByOrg(organization);
     }
 
     @Get(':id')
