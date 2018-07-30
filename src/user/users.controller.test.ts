@@ -1,46 +1,97 @@
-import { UsersController } from './users.controller';
-import { UsersService } from './users.service';
+import { UsersController } from '../user/users.controller';
+import { UsersService } from '../user/users.service';
+import { Test, TestingModule } from '@nestjs/testing';
+import { User } from '../user/user.entity';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { CreateUserDto } from './userDto/create-user.dto';
 import { Repository } from '../../node_modules/typeorm';
-import { User } from './user.entity';
 
- describe('UsersController', () => {
+
+describe('UsersController', () => {
     let controller: UsersController;
     let service: UsersService;
-    let repo: Repository<User>
 
-    
-    
-     beforeEach(() => {
-        repo = new Repository<User>();
-        service = new UsersService(repo);
-        controller = new UsersController(service);
-        
+    beforeAll(async () => {
+        const mod: TestingModule = await Test.createTestingModule({
+            imports: [
+                TypeOrmModule.forRoot({
+                    "type": "mysql",
+                    "host": "127.0.0.1",
+                    "port": 3306,
+                    "username": "root",
+                    "password": "root",
+                    "database": "test",
+                    "entities": [User],
+                    "synchronize": false
+                  }),
+                TypeOrmModule.forFeature([User])
+            ],
+            controllers:[
+                UsersController
+            ],
+            providers:[
+                UsersService
+            ],
+            components: [
+                {
+                    provide: 'UserRepository',
+                    useClass: Repository
+                }
+            ]
+        }).compile();
+        service = mod.get<UsersService>(UsersService);
+        controller = mod.get<UsersController>(UsersController);
     });
 
-     describe('Test users', () => {
-        it('Should test the user controller, service and entity.', async () => {
-
-            let text = await '{"Email":"el.senior.rodriguez@aye.caramba.me", "Role":"Directeur"}';
-            let dto = await JSON.parse(text);
-            await controller.create(dto);
-
-            let result = await controller.findOneByEmail("el.senior.rodriguez@aye.caramba.me");
-            await expect(result.Email).toBe("el.senior.rodriguez@aye.caramba.me");
-            await expect(result.Role).toBe("Directeur");
-
-            text = await '{"Email":"el.senior.rodriguez@aye.caramba.me", "Role":"Intervenant"}';
-            dto = await JSON.parse(text);
-            await controller.update(dto);
-
-            result = await controller.findOneByEmail("el.senior.rodriguez@aye.caramba.me");
-            await expect(result.Role).toBe("Intervernant");
-
-            text = await '{"Email":"el.senior.rodriguez@aye.caramba.me"}';
-            dto = await JSON.parse(text);
-            await controller.delete(dto);
-
-            let Allresult = await controller.findAll();
-            await expect(Allresult).toBe([]);
+    describe('findAll', () => {
+        it('Should return all users.', async ()=>{
+            const result = ['test'];
+            jest.spyOn(service, 'findAll').mockImplementation(()=>result);
+            expect(await controller.findAll()).toBe(result);
         });
     });
-}); 
+
+    describe('findOneByEmail', () => {
+        it('Should return user with email test@test.ca', async ()=>{
+            
+            
+            const user = '{"Email":"test@test.ca", "Role":"test"}';
+            const dto = JSON.parse(user);
+            controller.create(dto);
+
+            jest.spyOn(service, 'findOneByEmail').mockImplementation(()=>dto);
+            let result = await controller.findOneByEmail("test@test.ca");
+            expect(result.Email).toBe("test@test.ca");
+        });
+    });
+
+    describe('update', () => {
+        it('Should update user test@test.ca role to role', async ()=>{
+            
+            
+            const user = '{"Email":"test@test.ca", "Role":"role"}';
+            const dto = JSON.parse(user);
+            controller.update(dto);
+
+            jest.spyOn(service, 'findOneByEmail').mockImplementation(()=>true);
+
+            let result = await controller.findOneByEmail("test@test.ca");
+            expect(result);
+        });
+    });
+
+    describe('delete', () => {
+        it('Should delete user test@test.ca', async ()=>{
+            
+            
+            const user = '{"Email":"test@test.ca"}';
+            const dto = JSON.parse(user);
+            controller.delete(dto);
+
+            let result = await controller.findOneByEmail("test@test.ca");
+            expect(result);
+        });
+    });
+
+
+});
