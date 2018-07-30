@@ -33,8 +33,8 @@ describe('ServicePointsController', () => {
         controller = new ServicePointsController(service, adressesService, orgService);
     });
 
-    describe('Test service point', () => {
-        it('Should test the service point creation.', async () => {
+    describe('Test service points', () => {
+        it('Should test the service points controller, service and entity.', async () => {
 
             let text = await '{"DoorNumber": 200, "Street": "Georges VI", "City": "Terrebonne", "Province": "Qc", "PostalCode": "J6Y1P1"}';
             let dto = await JSON.parse(text);

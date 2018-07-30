@@ -27,8 +27,8 @@ describe('UsersController', () => {
         controller = new OrganizationsController(userService, adressesService, service);
     });
 
-    describe('Test user', () => {
-        it('Should test the user controller, service and entity.', async () => {
+    describe('Test organizations', () => {
+        it('Should test the organizations controller, service and entity.', async () => {
 
             let text = await '{"DoorNumber": 200, "Street": "Georges VI", "City": "Terrebonne", "Province": "Qc", "PostalCode": "J6Y1P1"}';
             let dto = await JSON.parse(text);

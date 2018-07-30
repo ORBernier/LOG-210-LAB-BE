@@ -14,8 +14,8 @@ import { User } from './user.entity';
         controller = new UsersController(service);
     });
 
-     describe('Test user', () => {
-        it('Should return the user created.', async () => {
+     describe('Test users', () => {
+        it('Should test the user controller, service and entity.', async () => {
 
             let text = await '{"Email":"el.senior.rodriguez@aye.caramba.me", "Role":"Directeur"}';
             let dto = await JSON.parse(text);
