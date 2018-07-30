@@ -40,7 +40,7 @@ export class RoomsController {
 
         let servicePoint = await this.servicePointService.findOneById(dto.ServicePointId);
 
-        let services = await this.servicesService.findSomeById(dto.ServicesIds);
+        let services = await this.servicesService.findSomeByServPoint(servicePoint);
 
         return await this.service.create(dto, servicePoint, services);
     }
