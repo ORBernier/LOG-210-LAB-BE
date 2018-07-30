@@ -19,27 +19,24 @@ import { User } from './user.entity';
 
             let text = await '{"Email":"el.senior.rodriguez@aye.caramba.me", "Role":"Directeur"}';
             let dto = await JSON.parse(text);
-
             await controller.create(dto);
-            let result = await controller.findOneByEmail("el.senior.rodriguez@aye.caramba.me");
 
+            let result = await controller.findOneByEmail("el.senior.rodriguez@aye.caramba.me");
             await expect(result.Email).toBe("el.senior.rodriguez@aye.caramba.me");
             await expect(result.Role).toBe("Directeur");
 
             text = await '{"Email":"el.senior.rodriguez@aye.caramba.me", "Role":"Intervenant"}';
             dto = await JSON.parse(text);
-
             await controller.update(dto);
-            result = await controller.findOneByEmail("el.senior.rodriguez@aye.caramba.me");
 
+            result = await controller.findOneByEmail("el.senior.rodriguez@aye.caramba.me");
             await expect(result.Role).toBe("Intervernant");
 
             text = await '{"Email":"el.senior.rodriguez@aye.caramba.me"}';
             dto = await JSON.parse(text);
-
             await controller.delete(dto);
+
             let Allresult = await controller.findAll();
-            
             await expect(Allresult).toBe([]);
         });
     });
