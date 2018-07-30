@@ -37,15 +37,6 @@ export class EmployeesService {
         return await this.employees.find();
     }
 
-    async findSomeByOrg(Organization: Organization): Promise<Employee[]> {
-
-        let result = await this.employees.find();
-
-        let filteredResult = result.filter((element) => element.Organization.Id == Organization.Id);
-
-        return filteredResult;        
-    }
-
     async findOneById(Id: number): Promise<Employee> {
 
         return await this.employees.findOne(Id);

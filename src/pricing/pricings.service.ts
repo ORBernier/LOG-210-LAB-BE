@@ -35,15 +35,6 @@ export class PricingsService {
         return await this.pricings.find();
     }
 
-    async findSomeByService(Service: Service): Promise<Pricing[]> {
-
-        let result = await this.pricings.find();
-
-        let filteredResult = result.filter((element) => element.Service.Id == Service.Id);
-
-        return filteredResult;        
-    }
-
     async findOneById(Id: number): Promise<Pricing> {
 
         return await this.pricings.findOne(Id);

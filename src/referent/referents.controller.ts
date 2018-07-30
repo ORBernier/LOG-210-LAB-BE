@@ -19,14 +19,6 @@ export class ReferentsController {
         return await this.service.findAll();
     }
 
-    
-    async findSomeByRefOrgId(@Param('ref_org_id') Id): Promise<Referent[]> {
-
-        let refOrg = await this.referentOrganizationService.findOneById(Id);
-
-        return await this.service.findSomeByRefOrg(refOrg);
-    }
-
     @Get(':id')
     async findOneById(@Param('id') Id): Promise<Referent> {
 

@@ -19,14 +19,6 @@ export class ServicesController {
         return await this.service.findAll();
     }
 
-    
-    async findSomeByServPointId(@Param('serv_point_id') Id): Promise<Service[]> {
-
-        let service = await this.servicePointService.findOneById(Id);
-
-        return await this.service.findSomeByServPoint(service);
-    }
-
     @Get(':id')
     async findOneById(@Param('id') Id): Promise<Service> {
 
