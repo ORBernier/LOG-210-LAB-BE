@@ -28,7 +28,7 @@ export class RoomsController {
     }
 
     @Get(':id')
-    async findOneByOne(@Param('id') Id): Promise<Room> {
+    async findOneById(@Param('id') Id): Promise<Room> {
 
         return await this.service.findOneById(Id);
     }
