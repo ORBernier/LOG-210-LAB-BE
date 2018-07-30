@@ -23,8 +23,8 @@ export class EmployeesController {
         return await this.service.findAll();
     }
 
-    @Get(':orgid')
-    async findSomeByOrgId(@Param('orgid') Id): Promise<Employee[]> {
+    @Get(':org_id')
+    async findSomeByOrgId(@Param('org_id') Id): Promise<Employee[]> {
 
         let organization = await this.organizationService.findOneById(Id);
 
