@@ -22,7 +22,7 @@ export class ReferentOrganizationsController {
         return await this.service.findAll();
     }
 
-    @Get(':org_id')
+    
     async findSomeByOrgId(@Param('org_id') Id): Promise<ReferentOrganization[]> {
 
         let organization = await this.organizationService.findOneById(Id);

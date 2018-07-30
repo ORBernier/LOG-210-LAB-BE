@@ -19,7 +19,7 @@ export class RoomsController {
         return await this.service.findAll();
     }
 
-    @Get(':serv_point_id')
+    
     async findSomeByServPointId(@Param('serv_point_id') Id): Promise<Room[]> {
 
         let servicePoint = await this.servicePointService.findOneById(Id);
