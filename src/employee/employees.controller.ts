@@ -40,11 +40,9 @@ export class EmployeesController {
     @Post()
     async create(@Body() dto: CreateEmployeeDto): Promise<number> {
 
-        let user = await this.userService.findOneByEmail(dto.UserEmail);
-
         let adress = await this.adressesService.findOneById(dto.AdressId);
 
-        return await this.service.create(dto, user, adress);
+        return await this.service.create(dto, adress);
     }
 
     @Put()
@@ -52,7 +50,7 @@ export class EmployeesController {
 
         let employee = await this.service.findOneById(dto.Id);
 
-        return await this.service.update(dto, employee.UserAccount, employee.Adress);
+        return await this.service.update(dto, employee.Adress);
     }
 
     @Delete()

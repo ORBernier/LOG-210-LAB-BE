@@ -1,7 +1,6 @@
-import { Injectable, Inject } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
-import { User } from 'user/user.entity';
 import { Employee } from './employee.entity';
 import { CreateEmployeeDto } from './employeeDto/create-employee.dto';
 import { UpdateEmployeeDto } from './employeeDto/update-employee.dto';
@@ -17,7 +16,7 @@ export class EmployeesService {
       ) {}
     
 
-    async create(dto: CreateEmployeeDto, UserAccount: User, Adress: Adress): Promise<number> {
+    async create(dto: CreateEmployeeDto, Adress: Adress): Promise<number> {
 
         const employee = new Employee();
 
@@ -25,7 +24,6 @@ export class EmployeesService {
         employee.LastName = dto.LastName;
         employee.Phone = dto.Phone;
         employee.RoleOrganization = dto.Role;
-        employee.UserAccount = UserAccount;
         employee.Adress = Adress;
 
         await this.employees.save(employee);
@@ -52,7 +50,7 @@ export class EmployeesService {
         return await this.employees.findOne(Id);
     }
 
-    async update(dto: UpdateEmployeeDto, UserAccount: User, Adress: Adress) {
+    async update(dto: UpdateEmployeeDto, Adress: Adress) {
 
 
         const employee = new Employee();
@@ -60,7 +58,6 @@ export class EmployeesService {
         employee.FirstName = dto.FirstName;
         employee.LastName = dto.LastName;
         employee.Phone = dto.Phone;
-        employee.UserAccount = UserAccount;
         employee.Adress = Adress;
 
         await this.employees.update(dto.Id, employee);
