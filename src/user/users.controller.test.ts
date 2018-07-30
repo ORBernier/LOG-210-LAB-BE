@@ -20,7 +20,7 @@ describe('UsersController', () => {
                     "port": 3306,
                     "username": "root",
                     "password": "root",
-                    "database": "test",
+                    "database": "back-end",
                     "entities": [User],
                     "synchronize": false
                   }),
@@ -45,7 +45,7 @@ describe('UsersController', () => {
 
     describe('findAll', () => {
         it('Should return all users.', async ()=>{
-            const result = ['test'];
+            const result = [];
             jest.spyOn(service, 'findAll').mockImplementation(()=>result);
             expect(await controller.findAll()).toBe(result);
         });

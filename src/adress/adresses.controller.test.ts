@@ -3,7 +3,7 @@ import { AdressesController } from './adresses.controller';
 import { AdressesService } from './adresses.service';
 import { Adress } from './adress.entity';
 
-describe('UsersController', () => {
+describe('AdressesController', () => {
     let controller: AdressesController;
     let service: AdressesService;
     let repo: Repository<Adress>;
