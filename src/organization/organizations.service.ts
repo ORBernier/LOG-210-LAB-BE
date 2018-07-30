@@ -1,4 +1,4 @@
-import { Injectable, Inject } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { Organization } from './organization.entity';
 import { CreateOrganizationDto } from './organizationDto/create-organization.dto';
 import { UpdateOrganizationDto } from './organizationDto/update-organization.dto';

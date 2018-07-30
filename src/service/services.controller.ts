@@ -44,7 +44,9 @@ export class ServicesController {
     @Put()
     async update(@Body() dto: UpdateServiceDto) {
 
-        return await this.service.update(dto);
+        let servicePoint = await this.servicePointService.findOneById(dto.ServicePointId);
+
+        return await this.service.update(dto, servicePoint);
     }
 
     @Delete()

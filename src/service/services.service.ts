@@ -53,13 +53,14 @@ export class ServicesService {
         return await this.services.findOne(Id);
     }
 
-    async update(dto: UpdateServiceDto) {
+    async update(dto: UpdateServiceDto, ServicePoint: ServicePoint) {
 
         const service = new Service();
 
         service.Name = dto.Name;
         service.Description = dto.Description;
         service.IsActive = dto.IsActive;
+        service.ServicePoint = ServicePoint;
             
         await this.services.update(dto.Id, service);
     }

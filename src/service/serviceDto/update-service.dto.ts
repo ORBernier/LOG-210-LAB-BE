@@ -4,4 +4,5 @@ export class UpdateServiceDto {
     readonly Name: string;
     readonly Description: string;
     readonly IsActive: boolean;
+    readonly ServicePointId: number;
 }
