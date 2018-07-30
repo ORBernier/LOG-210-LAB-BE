@@ -11,9 +11,9 @@
     "prestart:prod": "rm -rf dist && tsc",
     "start:prod": "node dist/main.js",
     "start:hmr": "node dist/server",
-    "test:": "jest --colors --coverage",
+    "test": "jest --colors --coverage",
     "test:cov": "jest --coverage",
-    "test": "jest --config ./test/jest-e2e.json",
+    "test:e2e": "jest --config ./test/jest-e2e.json",
     "webpack": "webpack --config webpack.config.js"
   },
   "dependencies": {
