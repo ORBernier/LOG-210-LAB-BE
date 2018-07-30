@@ -60,7 +60,6 @@ export class EmployeesService {
         employee.FirstName = dto.FirstName;
         employee.LastName = dto.LastName;
         employee.Phone = dto.Phone;
-        employee.RoleOrganization = dto.Role;
         employee.UserAccount = UserAccount;
         employee.Adress = Adress;
 

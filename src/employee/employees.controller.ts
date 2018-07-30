@@ -50,11 +50,9 @@ export class EmployeesController {
     @Put()
     async update(@Body() dto: UpdateEmployeeDto) {
 
-        let user = await this.userService.findOneByEmail(dto.UserEmail);
+        let employee = await this.service.findOneById(dto.Id);
 
-        let adress = await this.adressesService.findOneById(dto.AdressId);
-
-        return await this.service.update(dto, user, adress);
+        return await this.service.update(dto, employee.UserAccount, employee.Adress);
     }
 
     @Delete()

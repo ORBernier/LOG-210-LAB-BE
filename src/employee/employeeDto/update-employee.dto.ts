@@ -4,8 +4,4 @@ export class UpdateEmployeeDto {
     readonly FirstName: string;
     readonly LastName: string;
     readonly Phone: string;
-    readonly Role: string;
-    readonly UserEmail: string;
-    readonly AdressId: number;
-    readonly OrganizationId: number;
 }
