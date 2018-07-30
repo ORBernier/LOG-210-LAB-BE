@@ -16,7 +16,7 @@ export class EmployeesService {
       ) {}
     
 
-    async create(dto: CreateEmployeeDto, Adress: Adress): Promise<number> {
+    async create(dto: CreateEmployeeDto, Adress: Adress, Organization: Organization): Promise<number> {
 
         const employee = new Employee();
 
@@ -25,6 +25,7 @@ export class EmployeesService {
         employee.Phone = dto.Phone;
         employee.RoleOrganization = dto.Role;
         employee.Adress = Adress;
+        employee.Organization = Organization;
 
         await this.employees.save(employee);
 

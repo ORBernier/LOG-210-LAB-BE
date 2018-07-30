@@ -40,9 +40,11 @@ export class EmployeesController {
     @Post()
     async create(@Body() dto: CreateEmployeeDto): Promise<number> {
 
+        let organization = await this.organizationService.findOneById(dto.OrganizationId);
+
         let adress = await this.adressesService.findOneById(dto.AdressId);
 
-        return await this.service.create(dto, adress);
+        return await this.service.create(dto, adress, organization);
     }
 
     @Put()
