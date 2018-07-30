@@ -37,7 +37,7 @@ export class RoomsService {
 
         let result = await this.rooms.find();
 
-        let filteredResult = result.filter((element) => element.ServicePoint.Id == ServicePoint.Id)
+        let filteredResult = result.filter((element) => element.ServicePoint.Id == ServicePoint.Id);
 
         return filteredResult;        
     }

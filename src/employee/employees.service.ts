@@ -41,7 +41,7 @@ export class EmployeesService {
 
         let result = await this.employees.find();
 
-        let filteredResult = result.filter((element) => element.Organization.Id == Organization.Id)
+        let filteredResult = result.filter((element) => element.Organization.Id == Organization.Id);
 
         return filteredResult;        
     }

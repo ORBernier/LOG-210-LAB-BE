@@ -38,7 +38,7 @@ export class ServicesService {
 
         let result = await this.services.find();
 
-        let filteredResult = result.filter((element) => element.ServicePoint.Id == ServicePoint.Id)
+        let filteredResult = result.filter((element) => element.ServicePoint.Id == ServicePoint.Id);
 
         return filteredResult;        
     }

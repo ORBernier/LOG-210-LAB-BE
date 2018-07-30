@@ -43,7 +43,7 @@ export class ReferentsService {
 
         let result = await this.referents.find();
 
-        let filteredResult = result.filter((element) => element.ReferentOrganization.Id == ReferentOrganization.Id)
+        let filteredResult = result.filter((element) => element.ReferentOrganization.Id == ReferentOrganization.Id);
 
         return filteredResult;
     }

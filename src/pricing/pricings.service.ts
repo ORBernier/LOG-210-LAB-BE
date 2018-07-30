@@ -39,7 +39,7 @@ export class PricingsService {
 
         let result = await this.pricings.find();
 
-        let filteredResult = result.filter((element) => element.Service.Id == Service.Id)
+        let filteredResult = result.filter((element) => element.Service.Id == Service.Id);
 
         return filteredResult;        
     }
