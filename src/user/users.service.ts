@@ -14,12 +14,12 @@ export class UsersService {
       ) {}
     
 
-    async create(dto: CreateUserDto) {
+    async create(Email: string, Role: string) {
 
         const employe = new User();
 
-        employe.Email = dto.Email;
-        employe.Role = dto.Role;
+        employe.Email = Email;
+        employe.Role = Role;
 
         await this.users.save(employe);
     }
