@@ -1,5 +1,4 @@
-import { Entity, Column, PrimaryGeneratedColumn, ManyToMany, ManyToOne, JoinColumn, OneToMany } from 'typeorm';
-import { Service } from 'service/service.entity';
+import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
 import { ServicePoint } from 'servicePoint/servicePoint.entity';
 
 @Entity()
@@ -16,8 +15,4 @@ export class Room {
 
     @ManyToOne(type => ServicePoint)
     ServicePoint: ServicePoint;
-
-    @JoinColumn()
-    @OneToMany(type => Service, service => service.Rooms)
-    Services: Service[];
 }
