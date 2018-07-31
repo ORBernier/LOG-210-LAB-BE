@@ -8,6 +8,8 @@ import { AdressesService } from 'adress/adresses.service';
 import { Adress } from 'adress/adress.entity';
 import { UsersService } from 'user/users.service';
 import { User } from 'user/user.entity';
+import { AdressesModule } from 'adress/adresses.module';
+import { UsersModule } from 'user/users.module';
 
 
 describe('OrganizationsController', () => {
@@ -31,7 +33,8 @@ describe('OrganizationsController', () => {
                     "entities": [Organization, Adress, User],
                     "synchronize": false
                   }),
-                TypeOrmModule.forFeature([Organization, Adress, User])
+                TypeOrmModule.forFeature([Organization, Adress, User]),
+                AdressesModule, UsersModule
             ],
             controllers:[
                 OrganizationsController
