@@ -6,6 +6,8 @@ import { OrganizationsService } from './organizations.service';
 import { Organization } from './organization.entity';
 import { Adress } from 'adress/adress.entity';
 import { User } from 'user/user.entity';
+import { UsersModule } from 'user/users.module';
+import { AdressesModule } from 'adress/adresses.module';
 
 
 describe('OrganizationsController', () => {
@@ -16,6 +18,8 @@ describe('OrganizationsController', () => {
     beforeAll(async () => {
         const mod: TestingModule = await Test.createTestingModule({
             imports: [
+                UsersModule,
+                AdressesModule,
                 TypeOrmModule.forRoot({
                     "type": "mysql",
                     "host": "127.0.0.1",
