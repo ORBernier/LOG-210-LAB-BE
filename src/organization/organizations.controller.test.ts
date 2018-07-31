@@ -1,70 +1,111 @@
+import { Test, TestingModule } from '@nestjs/testing';
+import { TypeOrmModule } from '@nestjs/typeorm';
 import { Repository } from '../../node_modules/typeorm';
 import { OrganizationsController } from './organizations.controller';
 import { OrganizationsService } from './organizations.service';
 import { Organization } from './organization.entity';
-import { UsersService } from 'user/users.service';
-import { User } from 'user/user.entity';
-import { Adress } from 'adress/adress.entity';
-import { AdressesService } from 'adress/adresses.service';
 
-describe('UsersController', () => {
+
+describe('OrganizationsController', () => {
     let controller: OrganizationsController;
-    let adressesService: AdressesService;
-    let adressesRepo: Repository<Adress>;
-    let userService: UsersService;
-    let userRepo: Repository<User>;
     let service: OrganizationsService;
-    let repo: Repository<Organization>;
-    
+    let id: number;
 
-    beforeEach(() => {
-        repo = new Repository<Organization>();
-        service = new OrganizationsService(repo);
-        adressesRepo = new Repository<Adress>();
-        adressesService = new AdressesService(adressesRepo);
-        userRepo = new Repository<User>();
-        userService = new UsersService(userRepo);
-        controller = new OrganizationsController(userService, adressesService, service);
+    beforeAll(async () => {
+        const mod: TestingModule = await Test.createTestingModule({
+            imports: [
+                TypeOrmModule.forRoot({
+                    "type": "mysql",
+                    "host": "127.0.0.1",
+                    "port": 3306,
+                    "username": "root",
+                    "password": "root",
+                    "database": "back-end",
+                    "entities": [Organization],
+                    "synchronize": false
+                  }),
+                TypeOrmModule.forFeature([Organization])
+            ],
+            controllers:[
+                OrganizationsController
+            ],
+            providers:[
+                OrganizationsService
+            ],
+            components: [
+                {
+                    provide: 'Repository',
+                    useClass: Repository
+                }
+            ]
+        }).compile();
+        service = mod.get<AdressesService>(AdressesService);
+        controller = mod.get<AdressesController>(AdressesController);
     });
 
-    describe('Test organizations', () => {
-        it('Should test the organizations controller, service and entity.', async () => {
+    describe('findAll', () => {
+        it('Should return all adresses.', async ()=> {
+            const result = [];
+            jest.spyOn(service, 'findAll').mockImplementation(()=>result);
+            expect(await controller.findAll()).toBe(result);
+        });
+    });
 
-            let text = await '{"DoorNumber": 200, "Street": "Georges VI", "City": "Terrebonne", "Province": "Qc", "PostalCode": "J6Y1P1"}';
-            let dto = await JSON.parse(text);
-            let adressId = await adressesService.create(dto);
+    describe('create', () => {
+        it('Should return the id of the created adress', async () => {
+            let text = '{"DoorNumber": 200, "Street": "Georges VI", "City": "Terrebonne", "Province": "Qc", "PostalCode": "J6Y1P1"}';
+            let dto = JSON.parse(text);
+            let objectId = await controller.create(dto);
 
-            text = await '{"Email":"el.senior.rodriguez@aye.caramba.me", "Role":"Directeur"}';
-            dto = await JSON.parse(text);
-            await userService.create(dto);
+            let result = await controller.findOneById(objectId);
+            expect(result.DoorNumber).toBe(200);
+            expect(result.Street).toBe("Georges VI");
+            expect(result.City).toBe("Terrebonne");
+            expect(result.Province).toBe("Qc");
+            expect(result.PostalCode).toBe("J6Y1P1");
 
-            text = await '{"Name": "This", "AdressId": '+ adressId +', "Phone": "4504200420", "Email": "email@this.org", '+
-                            '"Fax": "4504201420", "ManagerEmail": "el.senior.rodriguez@aye.caramba.me"}';
-            dto = await JSON.parse(text);
-            let id = await controller.create(dto);
+            text = '{"Id": '+ objectId +'}';
+            dto = JSON.parse(text);
+            await controller.delete(dto)
+        })
+    })
+
+    describe('findOneById', () => {
+        it('Should return adress with Id = id', async ()=>{
+            
+            
+            const text = '{"DoorNumber": 200, "Street": "Georges VI", "City": "Terrebonne", "Province": "Qc", "PostalCode": "J6Y1P1"}';
+            const dto = JSON.parse(text);
+            id = await controller.create(dto);
 
             let result = await controller.findOneById(id);
-            await expect(result.Name).toBe("This");
-            await expect(result.Adress.Id).toBe(adressId);
-            await expect(result.Phone).toBe("4504200420");
-            await expect(result.Email).toBe("email@this.org");
-            await expect(result.Fax).toBe("4504201420");
-            await expect(result.Manager.Email).toBe("el.senior.rodriguez@aye.caramba.me");
+            expect(result.Id).toBe(id);
+        });
+    });
 
-            text = await '{"Id": '+ id +', "Name": "This", "AdressId": '+ adressId +', "Phone": "4504200420", "Email": "update@this.org", '+
-                            '"Fax": "4504201420", "ManagerEmail": "el.senior.rodriguez@aye.caramba.me"}';
-            dto = await JSON.parse(text);
+    describe('update', () => {
+        it('Should update the adress with the id', async ()=>{
+            
+            
+            const text = '{"Id": '+ id +', "DoorNumber": 250, "Street": "Georges VI", "City": "Terrebonne", "Province": "Qc", "PostalCode": "J6Y1P1"}';
+            const dto = JSON.parse(text);
             await controller.update(dto);
 
-            result = await controller.findOneById(id);
-            await expect(result.Email).toBe("update@this.org");
+            let result = await controller.findOneById(id);
+            expect(result.DoorNumber).toBe(250);
+        });
+    });
 
-            text = await '{"Id":'+ id +'}';
-            dto = await JSON.parse(text);
-            await controller.delete(dto);
+    describe('delete', () => {
+        it('Should delete adress with the id', async ()=>{
+            
+            
+            const text = '{"Id": '+ id +'}';
+            const dto = JSON.parse(text);
+            controller.delete(dto);
 
-            let Allresult = await controller.findAll();
-            await expect(Allresult).toBe([]);
+            let result = await controller.findOneById(id);
+            expect(result);
         });
     });
 });

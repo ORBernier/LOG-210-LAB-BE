@@ -3,7 +3,6 @@ import { UsersService } from '../user/users.service';
 import { Test, TestingModule } from '@nestjs/testing';
 import { User } from '../user/user.entity';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { CreateUserDto } from './userDto/create-user.dto';
 import { Repository } from '../../node_modules/typeorm';
 
 
@@ -34,7 +33,7 @@ describe('UsersController', () => {
             ],
             components: [
                 {
-                    provide: 'UserRepository',
+                    provide: 'Repository',
                     useClass: Repository
                 }
             ]
@@ -89,7 +88,7 @@ describe('UsersController', () => {
             controller.delete(dto);
 
             let result = await controller.findOneByEmail("test@test.ca");
-            expect(result);
+            expect(result).toBe(null);
         });
     });
 

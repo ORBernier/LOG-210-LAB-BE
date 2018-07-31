@@ -34,7 +34,7 @@ describe('AdressesController', () => {
             ],
             components: [
                 {
-                    provide: 'UserRepository',
+                    provide: 'Repository',
                     useClass: Repository
                 }
             ]
@@ -55,16 +55,16 @@ describe('AdressesController', () => {
         it('Should return the id of the created adress', async () => {
             let text = '{"DoorNumber": 200, "Street": "Georges VI", "City": "Terrebonne", "Province": "Qc", "PostalCode": "J6Y1P1"}';
             let dto = JSON.parse(text);
-            id = await controller.create(dto);
+            let objectId = await controller.create(dto);
 
-            let result = await controller.findOneById(id);
+            let result = await controller.findOneById(objectId);
             expect(result.DoorNumber).toBe(200);
             expect(result.Street).toBe("Georges VI");
             expect(result.City).toBe("Terrebonne");
             expect(result.Province).toBe("Qc");
             expect(result.PostalCode).toBe("J6Y1P1");
 
-            text = '{"Id": '+ id +'}';
+            text = '{"Id": '+ objectId +'}';
             dto = JSON.parse(text);
             await controller.delete(dto)
         })
