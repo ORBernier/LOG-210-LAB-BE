@@ -54,7 +54,7 @@ describe('OrganizationsController', () => {
     describe('create', () => {
         it('Should return the id of the created organization', async () => {
 
-            let text = await '{"Name": "This", "Phone": "4504200420", "Email": "email@this.org", '+
+            let text = '{"Name": "This", "Phone": "4504200420", "Email": "email@this.org", '+
                             '"Fax": "4504201420", "ManagerEmail": "el.senior.rodriguez@aye.caramba.me"}';
             let dto = await JSON.parse(text);
             id = await controller.create(dto);

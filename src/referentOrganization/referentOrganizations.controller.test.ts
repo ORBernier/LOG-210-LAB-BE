@@ -1,89 +1,103 @@
+import { Test, TestingModule } from '@nestjs/testing';
+import { TypeOrmModule } from '@nestjs/typeorm';
 import { Repository } from '../../node_modules/typeorm';
-import { AdressesService } from 'adress/adresses.service';
-import { Adress } from 'adress/adress.entity';
-import { OrganizationsService } from 'organization/organizations.service';
-import { Organization } from 'organization/organization.entity';
-import { UsersService } from 'user/users.service';
-import { User } from 'user/user.entity';
 import { ReferentOrganizationsController } from './referentOrganizations.controller';
 import { ReferentOrganizationsService } from './referentOrganizations.service';
-import { ReferentOrganization } from './referentOrganization.entity';
+import { Referent } from 'referent/referent.entity';
 
-describe('ServicePointsController', () => {
+describe('ReferentOrganizationsController', () => {
     let controller: ReferentOrganizationsController;
-    let adressesService: AdressesService;
-    let adressesRepo: Repository<Adress>;
-    let userService: UsersService;
-    let userRepo: Repository<User>;
-    let orgService: OrganizationsService;
-    let orgRepo: Repository<Organization>;
     let service: ReferentOrganizationsService;
-    let repo: Repository<ReferentOrganization>;
-    
+    let id: number;
 
-    beforeEach(() => {
-        repo = new Repository<ReferentOrganization>();
-        service = new ReferentOrganizationsService(repo);
-        adressesRepo = new Repository<Adress>();
-        adressesService = new AdressesService(adressesRepo);
-        userRepo = new Repository<User>();
-        userService = new UsersService(userRepo);
-        orgRepo = new Repository<Organization>();
-        orgService = new OrganizationsService(orgRepo);
-        controller = new ReferentOrganizationsController(orgService, adressesService, service);
+    beforeAll(async () => {
+        const mod: TestingModule = await Test.createTestingModule({
+            imports: [
+                TypeOrmModule.forRoot({
+                    "type": "mysql",
+                    "host": "127.0.0.1",
+                    "port": 3306,
+                    "username": "root",
+                    "password": "root",
+                    "database": "test",
+                    "entities": [Referent],
+                    "synchronize": false
+                  }),
+                TypeOrmModule.forFeature([Referent]),
+            ],
+            controllers:[
+                ReferentOrganizationsController
+            ],
+            providers:[
+                ReferentOrganizationsService
+            ],
+            components: [
+                {
+                    provide: 'Repository',
+                    useClass: Repository
+                }
+            ]
+        }).compile();
+        service = mod.get<ReferentOrganizationsService>(ReferentOrganizationsService);
+        controller = mod.get<ReferentOrganizationsController>(ReferentOrganizationsController);
     });
 
-    describe('Test referent organizations', () => {
-        it('Should test the referent organizations controller, service and entity.', async () => {
+    describe('findAll', () => {
+        it('Should return all referent organizations.', async ()=> {
+            const result = [];
+            jest.spyOn(service, 'findAll').mockImplementation(()=>result);
+            expect(await controller.findAll()).toBe(result);
+        });
+    });
 
-            let text = await '{"DoorNumber": 200, "Street": "Georges VI", "City": "Terrebonne", "Province": "Qc", "PostalCode": "J6Y1P1"}';
-            let dto = await JSON.parse(text);
-            let adressId = await adressesService.create(dto);
+    describe('create', () => {
+        it('Should return the id of the created referent organization', async () => {
 
-            text = await '{"Email":"el.senior.rodriguez@aye.caramba.me", "Role":"Directeur"}';
-            dto = await JSON.parse(text);
-            await userService.create(dto);
-
-            text = await '{"Name": "This", "AdressId": '+ adressId +', "Phone": "4504200420", "Email": "email@this.org", '+
-                            '"Fax": "4504201420", "ManagerEmail": "el.senior.rodriguez@aye.caramba.me"}';
-            dto = await JSON.parse(text);
-            let manager = await userService.findOneByEmail("el.senior.rodriguez@aye.caramba.me");
-            let adress = await adressesService.findOneById(adressId);
-            let orgId = await orgService.create(dto, manager, adress);
-
-            text = await '{"DoorNumber": 200, "Street": "Georges VI", "City": "Terrebonne", "Province": "Qc", "PostalCode": "J6Y1P1"}';
-            dto = await JSON.parse(text);
-            adressId = await adressesService.create(dto);
-            
-            text = await '{"Name": "Referent Org", "AdressId": '+ adressId +', "Phone": "4504204420", "Email": "email@referent.org", '+
-                            '"Fax": "4504205420", WebSite: "referentorg.com", "IsActive": true, "OrganizationId": '+ orgId +'}';
-            dto = await JSON.parse(text);
-            let id = await controller.create(dto);
+            const text = '{"Name": "Referent Org", "Phone": "4504204420", "Email": "email@referent.org", '+
+                            '"Fax": "4504205420", WebSite: "referentorg.com", "IsActive": true}';
+            const dto = await JSON.parse(text);
+            id = await controller.create(dto);
 
             let result = await controller.findOneById(id);
-            await expect(result.Name).toBe("Referent Org");
-            await expect(result.Adress.Id).toBe(adressId);
-            await expect(result.Phone).toBe("4504204420");
-            await expect(result.Email).toBe("email@referent.org");
-            await expect(result.Fax).toBe("4504205420");
-            await expect(result.WebSite).toBe("referentorg.com");
-            await expect(result.IsActive).toBe(true);
-            await expect(result.Organization.Id).toBe(orgId);
+            expect(result.Name).toBe("Referent Org");
+            expect(result.Phone).toBe("4504204420");
+            expect(result.Email).toBe("email@referent.org");
+            expect(result.Fax).toBe("4504205420");
+            expect(result.WebSite).toBe("referentorg.com");
+            expect(result.IsActive).toBe(true);
+        })
+    })
 
-            text = await '{"Id": '+ id +', "Name": "Referent Org", "AdressId": '+ adressId +', "Phone": "4504204420", "Email": "update@referent.org", '+
-                            '"Fax": "4504205420", WebSite: "referentorg.com", "IsActive": true, "OrganizationId": '+ orgId +'}';
-            dto = await JSON.parse(text);
+    describe('findOneById', () => {
+        it('Should return referent organization with Id = id', async ()=> {
+
+            let result = await controller.findOneById(id);
+            expect(result.Id).toBe(id);
+        });
+    });
+
+    describe('update', () => {
+        it('Should update the referent organization with the id', async ()=> {
+            
+            const text = '{"Id": '+ id +', "Name": "Referent Org", "Phone": "4504204420", "Email": "update@referent.org", '+
+                            '"Fax": "4504205420", WebSite: "referentorg.com", "IsActive": true}';
+            const dto = await JSON.parse(text);
             await controller.update(dto);
 
-            result = await controller.findOneById(id);
-            await expect(result.Email).toBe("update@referent.org");
+            let result = await controller.findOneById(id);
+            expect(result.Email).toBe("update@referent.org");
+        });
+    });
 
-            text = await '{"Id":'+ id +'}';
-            dto = await JSON.parse(text);
-            await controller.delete(dto);
+    describe('delete', () => {
+        it('Should delete referent organization with the id', async ()=> {
+            
+            const text = '{"Id": '+ id +'}';
+            const dto = JSON.parse(text);
+            controller.delete(dto);
 
-            let Allresult = await controller.findAll();
-            await expect(Allresult).toBe([]);
+            let result = await controller.findOneById(id);
+            expect(result);
         });
     });
 });

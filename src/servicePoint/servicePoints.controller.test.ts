@@ -5,7 +5,7 @@ import { ServicePointsController } from './servicePoints.controller';
 import { ServicePointsService } from './servicePoints.service';
 import { ServicePoint } from './servicePoint.entity';
 
-describe('OrganizationsController', () => {
+describe('ServicePointsController', () => {
     let controller: ServicePointsController;
     let service: ServicePointsService;
     let id: number;
@@ -19,7 +19,7 @@ describe('OrganizationsController', () => {
                     "port": 3306,
                     "username": "root",
                     "password": "root",
-                    "database": "back-end",
+                    "database": "test",
                     "entities": [ServicePoint],
                     "synchronize": false
                   }),

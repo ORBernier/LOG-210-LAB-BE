@@ -1,96 +1,98 @@
+import { Test, TestingModule } from '@nestjs/testing';
+import { TypeOrmModule } from '@nestjs/typeorm';
 import { Repository } from '../../node_modules/typeorm';
 import { ServicesController } from './services.controller';
-import { ServicePointsService } from 'servicePoint/servicePoints.service';
-import { ServicePoint } from 'servicePoint/servicePoint.entity';
 import { ServicesService } from './services.service';
 import { Service } from './service.entity';
-import { AdressesService } from 'adress/adresses.service';
-import { Adress } from 'adress/adress.entity';
-import { OrganizationsService } from 'organization/organizations.service';
-import { Organization } from 'organization/organization.entity';
-import { UsersService } from 'user/users.service';
-import { User } from 'user/user.entity';
 
-describe('UsersController', () => {
+describe('ServicesController', () => {
     let controller: ServicesController;
-    let adressesService: AdressesService;
-    let adressesRepo: Repository<Adress>;
-    let userService: UsersService;
-    let userRepo: Repository<User>;
-    let orgService: OrganizationsService;
-    let orgRepo: Repository<Organization>;
-    let servPointService: ServicePointsService;
-    let servPointRepo: Repository<ServicePoint>;
     let service: ServicesService;
-    let repo: Repository<Service>;
-    
+    let id: number;
 
-    beforeEach(() => {
-        repo = new Repository<Service>();
-        service = new ServicesService(repo);
-        adressesRepo = new Repository<Adress>();
-        adressesService = new AdressesService(adressesRepo);
-        userRepo = new Repository<User>();
-        userService = new UsersService(userRepo);
-        orgRepo = new Repository<Organization>();
-        orgService = new OrganizationsService(orgRepo);
-        servPointRepo = new Repository<ServicePoint>();
-        servPointService = new ServicePointsService(servPointRepo);
-        controller = new ServicesController(servPointService, service);
+    beforeAll(async () => {
+        const mod: TestingModule = await Test.createTestingModule({
+            imports: [
+                TypeOrmModule.forRoot({
+                    "type": "mysql",
+                    "host": "127.0.0.1",
+                    "port": 3306,
+                    "username": "root",
+                    "password": "root",
+                    "database": "test",
+                    "entities": [Service],
+                    "synchronize": false
+                  }),
+                TypeOrmModule.forFeature([Service]),
+            ],
+            controllers:[
+                ServicesController
+            ],
+            providers:[
+                ServicesService
+            ],
+            components: [
+                {
+                    provide: 'Repository',
+                    useClass: Repository
+                }
+            ]
+        }).compile();
+        service = mod.get<ServicesService>(ServicesService);
+        controller = mod.get<ServicesController>(ServicesController);
     });
 
-    describe('Test services', () => {
-        it('Should test the services controller, service and entity.', async () => {
+    describe('findAll', () => {
+        it('Should return all services.', async ()=> {
+            const result = [];
+            jest.spyOn(service, 'findAll').mockImplementation(()=>result);
+            expect(await controller.findAll()).toBe(result);
+        });
+    });
 
-            let text = await '{"DoorNumber": 200, "Street": "Georges VI", "City": "Terrebonne", "Province": "Qc", "PostalCode": "J6Y1P1"}';
-            let dto = await JSON.parse(text);
-            let adressId = await adressesService.create(dto);
+    describe('create', () => {
+        it('Should return the id of the created service', async () => {
 
-            text = await '{"Email":"el.senior.rodriguez@aye.caramba.me", "Role":"Directeur"}';
-            dto = await JSON.parse(text);
-            await userService.create(dto);
-
-            text = await '{"Name": "This", "AdressId": '+ adressId +', "Phone": "4504200420", "Email": "email@this.org", '+
-                            '"Fax": "4504201420", "ManagerEmail": "el.senior.rodriguez@aye.caramba.me"}';
-            dto = await JSON.parse(text);
-            let manager = await userService.findOneByEmail("el.senior.rodriguez@aye.caramba.me");
-            let adress = await adressesService.findOneById(adressId);
-            let orgId = await orgService.create(dto, manager, adress);
-
-            text = await '{"DoorNumber": 200, "Street": "Georges VI", "City": "Terrebonne", "Province": "Qc", "PostalCode": "J6Y1P1"}';
-            dto = await JSON.parse(text);
-            adressId = await adressesService.create(dto);
-            
-            text = await '{"Name": "A place", "AdressId": '+ adressId +', "Phone": "4504202420", "Email": "email@aplace.sp", '+
-                            '"Fax": "4504203420", "OrganizationId": '+ orgId +'}';
-            dto = await JSON.parse(text);
-            let org = await orgService.findOneById(orgId);
-            adress = await adressesService.findOneById(adressId);
-            let servPointId = await servPointService.create(dto, org, adress);
-
-            text = await '{"Name": "A service", "Description": "Something", "IsActive": true, "ServicePointId": '+ servPointId +'}';
-            dto = await JSON.parse(text);
-            let id = await controller.create(dto);
+            const text = '{"Name": "A service", "Description": "Something", "IsActive": true}';
+            const dto = await JSON.parse(text);
+            id = await controller.create(dto);
 
             let result = await controller.findOneById(id);
-            await expect(result.Name).toBe("A service");
-            await expect(result.Description).toBe("Something");
-            await expect(result.IsActive).toBe(true);
-            await expect(result.ServicePoint.Id).toBe(servPointId);
+            expect(result.Name).toBe("A service");
+            expect(result.Description).toBe("Something");
+            expect(result.IsActive).toBe(true);
+        })
+    })
 
-            text = await '{"Id": '+ id +', "Name": "A service", "Description": "Some other thing", "IsActive": true, "ServicePointId": '+ servPointId +'}';
-            dto = await JSON.parse(text);
+    describe('findOneById', () => {
+        it('Should return service with Id = id', async ()=> {
+
+            let result = await controller.findOneById(id);
+            expect(result.Id).toBe(id);
+        });
+    });
+
+    describe('update', () => {
+        it('Should update the service with the id', async ()=> {
+            
+            const text = '{"Id": '+ id +', "Name": "A service", "Description": "Some other thing", "IsActive": true}';
+            const dto = await JSON.parse(text);
             await controller.update(dto);
 
-            result = await controller.findOneById(id);
-            await expect(result.Description).toBe("Some other thing");
+            let result = await controller.findOneById(id);
+            expect(result.Description).toBe("Some other thing");
+        });
+    });
 
-            text = await '{"Id":'+ id +'}';
-            dto = await JSON.parse(text);
-            await controller.delete(dto);
+    describe('delete', () => {
+        it('Should delete service with the id', async ()=> {
+            
+            const text = '{"Id": '+ id +'}';
+            const dto = JSON.parse(text);
+            controller.delete(dto);
 
-            let Allresult = await controller.findAll();
-            await expect(Allresult).toBe([]);
+            let result = await controller.findOneById(id);
+            expect(result);
         });
     });
 });
