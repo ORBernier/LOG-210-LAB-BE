@@ -4,8 +4,8 @@ import { OrganizationsService } from './organizations.service';
 import { CreateOrganizationDto } from './organizationDto/create-organization.dto';
 import { UpdateOrganizationDto } from './organizationDto/update-organization.dto';
 import { DeleteOrganizationDto } from './organizationDto/delete-organization.dto';
-import { UsersService } from 'user/users.service';
-import { AdressesService } from 'adress/adresses.service';
+import { UsersService } from '../user/users.service';
+import { AdressesService } from '../adress/adresses.service';
 
 
 @Controller('organizations')

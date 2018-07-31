@@ -4,6 +4,8 @@ import { Repository } from '../../node_modules/typeorm';
 import { OrganizationsController } from './organizations.controller';
 import { OrganizationsService } from './organizations.service';
 import { Organization } from './organization.entity';
+import { Adress } from 'adress/adress.entity';
+import { User } from 'user/user.entity';
 
 
 describe('OrganizationsController', () => {
@@ -21,10 +23,10 @@ describe('OrganizationsController', () => {
                     "username": "root",
                     "password": "root",
                     "database": "test",
-                    "entities": [Organization],
+                    "entities": [Organization, Adress, User],
                     "synchronize": false
                   }),
-                TypeOrmModule.forFeature([Organization]),
+                TypeOrmModule.forFeature([Organization, Adress, User]),
             ],
             controllers:[
                 OrganizationsController
@@ -34,7 +36,15 @@ describe('OrganizationsController', () => {
             ],
             components: [
                 {
-                    provide: 'Repository',
+                    provide: 'UserRepository',
+                    useClass: Repository
+                },
+                {
+                    provide: 'AdressRepository',
+                    useClass: Repository
+                },
+                {
+                    provide: 'OrganizationRepository',
                     useClass: Repository
                 }
             ]
@@ -80,7 +90,7 @@ describe('OrganizationsController', () => {
         it('Should update the adress with the id', async ()=> {
             
             
-            const text = '{"Id": '+ id +', "Name": "This", "Phone": "4504200420", "Email": "update@this.org", '+
+            const text = '{"Id": "'+ id +'", "Name": "This", "Phone": "4504200420", "Email": "update@this.org", '+
                             '"Fax": "4504201420", "ManagerEmail": "el.senior.rodriguez@aye.caramba.me"}';
             const dto = JSON.parse(text);
             await controller.update(dto);

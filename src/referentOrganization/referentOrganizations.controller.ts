@@ -5,7 +5,7 @@ import { ReferentOrganization } from './referentOrganization.entity';
 import { CreateReferentOrganizationDto } from './referentOrganizationDto/create-referentOrganization.dto';
 import { UpdateReferentOrganizationDto } from './referentOrganizationDto/update-referentOrganization.dto';
 import { DeleteReferentOrganizationDto } from './referentOrganizationDto/delete-referentOrganization.dto';
-import { AdressesService } from 'adress/adresses.service';
+import { AdressesService } from '../adress/adresses.service';
 
 
 @Controller('referent_organizations')

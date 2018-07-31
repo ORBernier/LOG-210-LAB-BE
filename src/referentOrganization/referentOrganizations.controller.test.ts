@@ -4,6 +4,9 @@ import { Repository } from '../../node_modules/typeorm';
 import { ReferentOrganizationsController } from './referentOrganizations.controller';
 import { ReferentOrganizationsService } from './referentOrganizations.service';
 import { ReferentOrganization } from './referentOrganization.entity';
+import { Adress } from 'adress/adress.entity';
+import { Organization } from 'organization/organization.entity';
+import { User } from 'user/user.entity';
 
 describe('ReferentOrganizationsController', () => {
     let controller: ReferentOrganizationsController;
@@ -20,10 +23,10 @@ describe('ReferentOrganizationsController', () => {
                     "username": "root",
                     "password": "root",
                     "database": "test",
-                    "entities": [ReferentOrganization],
+                    "entities": [ReferentOrganization, Adress, Organization, User],
                     "synchronize": false
                   }),
-                TypeOrmModule.forFeature([ReferentOrganization]),
+                TypeOrmModule.forFeature([ReferentOrganization, Adress, Organization, User]),
             ],
             controllers:[
                 ReferentOrganizationsController
@@ -33,7 +36,19 @@ describe('ReferentOrganizationsController', () => {
             ],
             components: [
                 {
-                    provide: 'Repository',
+                    provide: 'RefOrgRepository',
+                    useClass: Repository
+                },
+                {
+                    provide: 'OrganizationRepository',
+                    useClass: Repository
+                },
+                {
+                    provide: 'UserRepository',
+                    useClass: Repository
+                },
+                {
+                    provide: 'AdressRepository',
                     useClass: Repository
                 }
             ]

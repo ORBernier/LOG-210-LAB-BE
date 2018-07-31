@@ -4,6 +4,7 @@ import { Repository } from '../../node_modules/typeorm';
 import { PricingsController } from './pricings.controller';
 import { PricingsService } from './pricings.service';
 import { Pricing } from './pricing.entity';
+import { Service } from 'service/service.entity';
 
 describe('ReferentsController', () => {
     let controller: PricingsController;
@@ -20,10 +21,10 @@ describe('ReferentsController', () => {
                     "username": "root",
                     "password": "root",
                     "database": "test",
-                    "entities": [Pricing],
+                    "entities": [Pricing, Service],
                     "synchronize": false
                   }),
-                TypeOrmModule.forFeature([Pricing]),
+                TypeOrmModule.forFeature([Pricing, Service]),
             ],
             controllers:[
                 PricingsController
@@ -33,7 +34,11 @@ describe('ReferentsController', () => {
             ],
             components: [
                 {
-                    provide: 'Repository',
+                    provide: 'PricingRepository',
+                    useClass: Repository
+                },
+                {
+                    provide: 'ServiceRepository',
                     useClass: Repository
                 }
             ]

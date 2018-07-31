@@ -4,6 +4,10 @@ import { Repository } from '../../node_modules/typeorm';
 import { ReferentsController } from './referents.controller';
 import { ReferentsService } from './referents.service';
 import { Referent } from 'referent/referent.entity';
+import { ReferentOrganization } from 'referentOrganization/referentOrganization.entity';
+import { Adress } from 'adress/adress.entity';
+import { Organization } from 'organization/organization.entity';
+import { User } from 'user/user.entity';
 
 describe('ReferentsController', () => {
     let controller: ReferentsController;
@@ -20,10 +24,10 @@ describe('ReferentsController', () => {
                     "username": "root",
                     "password": "root",
                     "database": "test",
-                    "entities": [Referent],
+                    "entities": [Referent, ReferentOrganization, Adress, Organization, User],
                     "synchronize": false
                   }),
-                TypeOrmModule.forFeature([Referent]),
+                TypeOrmModule.forFeature([Referent, ReferentOrganization, Adress, Organization, User]),
             ],
             controllers:[
                 ReferentsController
@@ -33,9 +37,25 @@ describe('ReferentsController', () => {
             ],
             components: [
                 {
-                    provide: 'Repository',
+                    provide: 'RefRepository',
                     useClass: Repository
-                }
+                },
+                {
+                    provide: 'RefOrgRepository',
+                    useClass: Repository
+                },
+                {
+                    provide: 'OrganizationRepository',
+                    useClass: Repository
+                },
+                {
+                    provide: 'UserRepository',
+                    useClass: Repository
+                },
+                {
+                    provide: 'AdressRepository',
+                    useClass: Repository
+                },
             ]
         }).compile();
         service = mod.get<ReferentsService>(ReferentsService);

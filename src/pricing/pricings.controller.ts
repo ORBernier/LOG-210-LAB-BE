@@ -4,7 +4,7 @@ import { PricingsService } from './pricings.service';
 import { CreatePricingDto } from './pricingDto/create-pricing.dto';
 import { UpdatePricingDto } from './pricingDto/update-pricing.dto';
 import { DeletePricingDto } from './pricingDto/delete-pricing.dto';
-import { ServicesService } from 'service/services.service';
+import { ServicesService } from '../service/services.service';
 
 @Controller('pricings')
 export class PricingsController {
