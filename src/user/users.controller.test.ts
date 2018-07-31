@@ -88,7 +88,7 @@ describe('UsersController', () => {
             controller.delete(dto);
 
             let result = await controller.findOneByEmail("test@test.ca");
-            expect(result).toBe(null);
+            expect(result);
         });
     });
 

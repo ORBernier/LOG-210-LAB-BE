@@ -31,7 +31,7 @@ describe('OrganizationsController', () => {
                     "entities": [Organization, Adress, User],
                     "synchronize": false
                   }),
-                TypeOrmModule.forFeature([Organization])
+                TypeOrmModule.forFeature([Organization, Adress, User])
             ],
             controllers:[
                 OrganizationsController
