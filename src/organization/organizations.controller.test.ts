@@ -20,7 +20,7 @@ describe('OrganizationsController', () => {
                     "port": 3306,
                     "username": "root",
                     "password": "root",
-                    "database": "back-end",
+                    "database": "test",
                     "entities": [Organization],
                     "synchronize": false
                   }),

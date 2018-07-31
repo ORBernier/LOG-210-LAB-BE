@@ -20,7 +20,7 @@ describe('EmployeesController', () => {
                     "port": 3306,
                     "username": "root",
                     "password": "root",
-                    "database": "back-end",
+                    "database": "test",
                     "entities": [Employee],
                     "synchronize": false
                   }),

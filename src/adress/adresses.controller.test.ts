@@ -20,7 +20,7 @@ describe('AdressesController', () => {
                     "port": 3306,
                     "username": "root",
                     "password": "root",
-                    "database": "back-end",
+                    "database": "test",
                     "entities": [Adress],
                     "synchronize": false
                   }),
