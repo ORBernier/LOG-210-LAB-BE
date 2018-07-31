@@ -3,7 +3,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { Repository } from '../../node_modules/typeorm';
 import { ReferentOrganizationsController } from './referentOrganizations.controller';
 import { ReferentOrganizationsService } from './referentOrganizations.service';
-import { Referent } from 'referent/referent.entity';
+import { ReferentOrganization } from './referentOrganization.entity';
 
 describe('ReferentOrganizationsController', () => {
     let controller: ReferentOrganizationsController;
@@ -20,10 +20,10 @@ describe('ReferentOrganizationsController', () => {
                     "username": "root",
                     "password": "root",
                     "database": "test",
-                    "entities": [Referent],
+                    "entities": [ReferentOrganization],
                     "synchronize": false
                   }),
-                TypeOrmModule.forFeature([Referent]),
+                TypeOrmModule.forFeature([ReferentOrganization]),
             ],
             controllers:[
                 ReferentOrganizationsController
