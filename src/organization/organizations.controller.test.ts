@@ -4,12 +4,19 @@ import { Repository } from '../../node_modules/typeorm';
 import { OrganizationsController } from './organizations.controller';
 import { OrganizationsService } from './organizations.service';
 import { Organization } from './organization.entity';
+import { AdressesService } from 'adress/adresses.service';
+import { Adress } from 'adress/adress.entity';
+import { UsersService } from 'user/users.service';
+import { User } from 'user/user.entity';
 
 
 describe('OrganizationsController', () => {
     let controller: OrganizationsController;
+    let adressesService: AdressesService;
+    let userService: UsersService;
     let service: OrganizationsService;
     let id: number;
+    let adressId: number
 
     beforeAll(async () => {
         const mod: TestingModule = await Test.createTestingModule({
@@ -21,7 +28,7 @@ describe('OrganizationsController', () => {
                     "username": "root",
                     "password": "root",
                     "database": "back-end",
-                    "entities": [Organization],
+                    "entities": [Organization, Adress, User],
                     "synchronize": false
                   }),
                 TypeOrmModule.forFeature([Organization])
@@ -30,7 +37,7 @@ describe('OrganizationsController', () => {
                 OrganizationsController
             ],
             providers:[
-                OrganizationsService
+                OrganizationsService, AdressesService, UsersService
             ],
             components: [
                 {
@@ -39,12 +46,14 @@ describe('OrganizationsController', () => {
                 }
             ]
         }).compile();
-        service = mod.get<AdressesService>(AdressesService);
-        controller = mod.get<AdressesController>(AdressesController);
+        adressesService = mod.get<AdressesService>(AdressesService);
+        userService = mod.get<UsersService>(UsersService);
+        service = mod.get<OrganizationsService>(OrganizationsService);
+        controller = mod.get<OrganizationsController>(OrganizationsController);
     });
 
     describe('findAll', () => {
-        it('Should return all adresses.', async ()=> {
+        it('Should return all organizations.', async ()=> {
             const result = [];
             jest.spyOn(service, 'findAll').mockImplementation(()=>result);
             expect(await controller.findAll()).toBe(result);
@@ -52,26 +61,36 @@ describe('OrganizationsController', () => {
     });
 
     describe('create', () => {
-        it('Should return the id of the created adress', async () => {
-            let text = '{"DoorNumber": 200, "Street": "Georges VI", "City": "Terrebonne", "Province": "Qc", "PostalCode": "J6Y1P1"}';
-            let dto = JSON.parse(text);
+        it('Should return the id of the created organization', async () => {
+            let text = await '{"DoorNumber": 200, "Street": "Georges VI", "City": "Terrebonne", "Province": "Qc", "PostalCode": "J6Y1P1"}';
+            let dto = await JSON.parse(text);
+            adressId = await adressesService.create(dto);
+
+            text = await '{"Email":"el.senior.rodriguez@aye.caramba.me", "Role":"Directeur"}';
+            dto = await JSON.parse(text);
+            await userService.create(dto);
+
+            text = await '{"Name": "This", "AdressId": '+ adressId +', "Phone": "4504200420", "Email": "email@this.org", '+
+                            '"Fax": "4504201420", "ManagerEmail": "el.senior.rodriguez@aye.caramba.me"}';
+            dto = await JSON.parse(text);
             let objectId = await controller.create(dto);
 
             let result = await controller.findOneById(objectId);
-            expect(result.DoorNumber).toBe(200);
-            expect(result.Street).toBe("Georges VI");
-            expect(result.City).toBe("Terrebonne");
-            expect(result.Province).toBe("Qc");
-            expect(result.PostalCode).toBe("J6Y1P1");
+            expect(result.Name).toBe("This");
+            expect(result.Adress.Id).toBe(adressId);
+            expect(result.Phone).toBe("4504200420");
+            expect(result.Email).toBe("email@this.org");
+            expect(result.Fax).toBe("4504201420");
+            expect(result.Manager.Email).toBe("el.senior.rodriguez@aye.caramba.me");
 
-            text = '{"Id": '+ objectId +'}';
-            dto = JSON.parse(text);
-            await controller.delete(dto)
+            text = await '{"Id":'+ objectId +'}';
+            dto = await JSON.parse(text);
+            await controller.delete(dto);
         })
     })
 
     describe('findOneById', () => {
-        it('Should return adress with Id = id', async ()=>{
+        it('Should return organization with Id = id', async ()=> {
             
             
             const text = '{"DoorNumber": 200, "Street": "Georges VI", "City": "Terrebonne", "Province": "Qc", "PostalCode": "J6Y1P1"}';
@@ -84,20 +103,21 @@ describe('OrganizationsController', () => {
     });
 
     describe('update', () => {
-        it('Should update the adress with the id', async ()=>{
+        it('Should update the adress with the id', async ()=> {
             
             
-            const text = '{"Id": '+ id +', "DoorNumber": 250, "Street": "Georges VI", "City": "Terrebonne", "Province": "Qc", "PostalCode": "J6Y1P1"}';
+            const text = '{"Id": '+ id +', "Name": "This", "AdressId": '+ adressId +', "Phone": "4504200420", "Email": "update@this.org", '+
+                            '"Fax": "4504201420", "ManagerEmail": "el.senior.rodriguez@aye.caramba.me"}';
             const dto = JSON.parse(text);
             await controller.update(dto);
-
+            
             let result = await controller.findOneById(id);
-            expect(result.DoorNumber).toBe(250);
+            await expect(result.Email).toBe("update@this.org");
         });
     });
 
     describe('delete', () => {
-        it('Should delete adress with the id', async ()=>{
+        it('Should delete organization with the id', async ()=>{
             
             
             const text = '{"Id": '+ id +'}';
